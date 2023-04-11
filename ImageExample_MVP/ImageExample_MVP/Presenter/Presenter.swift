@@ -11,9 +11,16 @@ final class Presenter {
 
     // MARK: - property
 
+    private let unsplashService: UnsplashService
     private weak var viewDelegate: ViewControllerDelegate?
 
     private var count: Int = 0
+
+    // MARK: - init
+
+    init(unsplashService: UnsplashService) {
+        self.unsplashService = unsplashService
+    }
 
     // MARK: - func
 
@@ -22,7 +29,7 @@ final class Presenter {
     }
 
     func decreaseCount() {
-        guard count > 0 else { return }
+        guard count > 1 else { return }
         self.count -= 1
         self.viewDelegate?.displayCount(self.count)
     }
@@ -30,5 +37,10 @@ final class Presenter {
     func increaseCount() {
         self.count += 1
         self.viewDelegate?.displayCount(self.count)
+    }
+
+    func fetchImageURLs() async {
+        let imageURLs = await self.unsplashService.imageURLs(count: self.count)
+        self.viewDelegate?.displayImages(imageURLs: imageURLs)
     }
 }

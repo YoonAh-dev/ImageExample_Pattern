@@ -15,6 +15,14 @@
 		B5AE133229E5409000F86FF8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5AE133029E5409000F86FF8 /* LaunchScreen.storyboard */; };
 		B5AE133D29E5409000F86FF8 /* ImageExample_MVPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE133C29E5409000F86FF8 /* ImageExample_MVPTests.swift */; };
 		B5AE135A29E5476400F86FF8 /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE135929E5476400F86FF8 /* Presenter.swift */; };
+		B5AE135E29E5553F00F86FF8 /* APIEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE135D29E5553F00F86FF8 /* APIEnvironment.swift */; };
+		B5AE136029E555F700F86FF8 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE135F29E555F700F86FF8 /* APIRequest.swift */; };
+		B5AE136429E5569E00F86FF8 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE136329E5569E00F86FF8 /* NetworkRequest.swift */; };
+		B5AE136629E557C900F86FF8 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE136529E557C900F86FF8 /* NetworkError.swift */; };
+		B5AE136829E557FD00F86FF8 /* UnsplashEndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE136729E557FD00F86FF8 /* UnsplashEndPoint.swift */; };
+		B5AE136C29E55A6700F86FF8 /* UnsplashAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE136B29E55A6700F86FF8 /* UnsplashAPI.swift */; };
+		B5AE136E29E55CBE00F86FF8 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE136D29E55CBE00F86FF8 /* Image.swift */; };
+		B5AE137129E55F1800F86FF8 /* UnsplashService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE137029E55F1800F86FF8 /* UnsplashService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +47,14 @@
 		B5AE133829E5409000F86FF8 /* ImageExample_MVPTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageExample_MVPTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5AE133C29E5409000F86FF8 /* ImageExample_MVPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExample_MVPTests.swift; sourceTree = "<group>"; };
 		B5AE135929E5476400F86FF8 /* Presenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
+		B5AE135D29E5553F00F86FF8 /* APIEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEnvironment.swift; sourceTree = "<group>"; };
+		B5AE135F29E555F700F86FF8 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
+		B5AE136329E5569E00F86FF8 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
+		B5AE136529E557C900F86FF8 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		B5AE136729E557FD00F86FF8 /* UnsplashEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashEndPoint.swift; sourceTree = "<group>"; };
+		B5AE136B29E55A6700F86FF8 /* UnsplashAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashAPI.swift; sourceTree = "<group>"; };
+		B5AE136D29E55CBE00F86FF8 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		B5AE137029E55F1800F86FF8 /* UnsplashService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +96,9 @@
 		B5AE132429E5408F00F86FF8 /* ImageExample_MVP */ = {
 			isa = PBXGroup;
 			children = (
+				B5AE135C29E5553400F86FF8 /* Network */,
+				B5AE136929E55A3C00F86FF8 /* Service */,
+				B5AE135B29E54A0E00F86FF8 /* Model */,
 				B5AE135829E5474100F86FF8 /* Presenter */,
 				B5AE135729E540E000F86FF8 /* View */,
 				B5AE135629E540D400F86FF8 /* Resource */,
@@ -130,6 +149,51 @@
 				B5AE135929E5476400F86FF8 /* Presenter.swift */,
 			);
 			path = Presenter;
+			sourceTree = "<group>";
+		};
+		B5AE135B29E54A0E00F86FF8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B5AE136D29E55CBE00F86FF8 /* Image.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B5AE135C29E5553400F86FF8 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				B5AE136F29E55F0800F86FF8 /* API */,
+				B5AE136A29E55A4500F86FF8 /* EndPoint */,
+				B5AE135D29E5553F00F86FF8 /* APIEnvironment.swift */,
+				B5AE135F29E555F700F86FF8 /* APIRequest.swift */,
+				B5AE136329E5569E00F86FF8 /* NetworkRequest.swift */,
+				B5AE136529E557C900F86FF8 /* NetworkError.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		B5AE136929E55A3C00F86FF8 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				B5AE137029E55F1800F86FF8 /* UnsplashService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		B5AE136A29E55A4500F86FF8 /* EndPoint */ = {
+			isa = PBXGroup;
+			children = (
+				B5AE136729E557FD00F86FF8 /* UnsplashEndPoint.swift */,
+			);
+			path = EndPoint;
+			sourceTree = "<group>";
+		};
+		B5AE136F29E55F0800F86FF8 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				B5AE136B29E55A6700F86FF8 /* UnsplashAPI.swift */,
+			);
+			path = API;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,10 +297,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5AE136429E5569E00F86FF8 /* NetworkRequest.swift in Sources */,
+				B5AE136629E557C900F86FF8 /* NetworkError.swift in Sources */,
 				B5AE132A29E5408F00F86FF8 /* ViewController.swift in Sources */,
+				B5AE136829E557FD00F86FF8 /* UnsplashEndPoint.swift in Sources */,
 				B5AE132629E5408F00F86FF8 /* AppDelegate.swift in Sources */,
 				B5AE135A29E5476400F86FF8 /* Presenter.swift in Sources */,
+				B5AE136C29E55A6700F86FF8 /* UnsplashAPI.swift in Sources */,
+				B5AE135E29E5553F00F86FF8 /* APIEnvironment.swift in Sources */,
+				B5AE136029E555F700F86FF8 /* APIRequest.swift in Sources */,
+				B5AE136E29E55CBE00F86FF8 /* Image.swift in Sources */,
 				B5AE132829E5408F00F86FF8 /* SceneDelegate.swift in Sources */,
+				B5AE137129E55F1800F86FF8 /* UnsplashService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

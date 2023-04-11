@@ -22,7 +22,7 @@ final class ViewController: UIViewController {
 
     // MARK: - property
 
-    private let presenter: Presenter = Presenter()
+    private let presenter: Presenter = Presenter(unsplashService: UnsplashService())
     private var imageURLs: [String] = [] {
         didSet { self.photoCollectionView.reloadData() }
     }
@@ -51,7 +51,9 @@ final class ViewController: UIViewController {
     }
 
     @IBAction func didTapSubmitButton(_ sender: Any) {
-
+        Task {
+            await self.presenter.fetchImageURLs()
+        }
     }
 }
 
