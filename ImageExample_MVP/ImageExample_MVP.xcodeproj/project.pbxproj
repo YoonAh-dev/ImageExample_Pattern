@@ -14,6 +14,7 @@
 		B5AE132F29E5409000F86FF8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5AE132E29E5409000F86FF8 /* Assets.xcassets */; };
 		B5AE133229E5409000F86FF8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5AE133029E5409000F86FF8 /* LaunchScreen.storyboard */; };
 		B5AE133D29E5409000F86FF8 /* ImageExample_MVPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE133C29E5409000F86FF8 /* ImageExample_MVPTests.swift */; };
+		B5AE135A29E5476400F86FF8 /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE135929E5476400F86FF8 /* Presenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +38,7 @@
 		B5AE133329E5409000F86FF8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B5AE133829E5409000F86FF8 /* ImageExample_MVPTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageExample_MVPTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5AE133C29E5409000F86FF8 /* ImageExample_MVPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExample_MVPTests.swift; sourceTree = "<group>"; };
+		B5AE135929E5476400F86FF8 /* Presenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 		B5AE132429E5408F00F86FF8 /* ImageExample_MVP */ = {
 			isa = PBXGroup;
 			children = (
+				B5AE135829E5474100F86FF8 /* Presenter */,
 				B5AE135729E540E000F86FF8 /* View */,
 				B5AE135629E540D400F86FF8 /* Resource */,
 				B5AE135529E540BD00F86FF8 /* Support */,
@@ -119,6 +122,14 @@
 				B5AE132929E5408F00F86FF8 /* ViewController.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		B5AE135829E5474100F86FF8 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				B5AE135929E5476400F86FF8 /* Presenter.swift */,
+			);
+			path = Presenter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -224,6 +235,7 @@
 			files = (
 				B5AE132A29E5408F00F86FF8 /* ViewController.swift in Sources */,
 				B5AE132629E5408F00F86FF8 /* AppDelegate.swift in Sources */,
+				B5AE135A29E5476400F86FF8 /* Presenter.swift in Sources */,
 				B5AE132829E5408F00F86FF8 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -22,6 +22,7 @@ final class ViewController: UIViewController {
 
     // MARK: - property
 
+    private let presenter: Presenter = Presenter()
     private var imageURLs: [String] = [] {
         didSet { self.photoCollectionView.reloadData() }
     }
@@ -30,16 +31,23 @@ final class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.configureDelegation()
+    }
+
+    // MARK: - func
+
+    private func configureDelegation() {
+        self.presenter.configureDelegation(self)
     }
 
     // MARK: - IBAction
 
     @IBAction func didTapLeftButton(_ sender: Any) {
-
+        self.presenter.decreaseCount()
     }
 
     @IBAction func didTapRightButton(_ sender: Any) {
-
+        self.presenter.increaseCount()
     }
 
     @IBAction func didTapSubmitButton(_ sender: Any) {
