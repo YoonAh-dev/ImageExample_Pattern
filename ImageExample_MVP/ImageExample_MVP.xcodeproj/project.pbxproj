@@ -24,6 +24,7 @@
 		B5AE136E29E55CBE00F86FF8 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE136D29E55CBE00F86FF8 /* Image.swift */; };
 		B5AE137129E55F1800F86FF8 /* UnsplashService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE137029E55F1800F86FF8 /* UnsplashService.swift */; };
 		B5AE137329E569F900F86FF8 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE137229E569F900F86FF8 /* PhotoCollectionViewCell.swift */; };
+		B5AE137629E5995900F86FF8 /* ViewController_Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE137529E5995900F86FF8 /* ViewController_Mock.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		B5AE136D29E55CBE00F86FF8 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		B5AE137029E55F1800F86FF8 /* UnsplashService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashService.swift; sourceTree = "<group>"; };
 		B5AE137229E569F900F86FF8 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		B5AE137529E5995900F86FF8 /* ViewController_Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController_Mock.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 		B5AE133B29E5409000F86FF8 /* ImageExample_MVPTests */ = {
 			isa = PBXGroup;
 			children = (
+				B5AE137429E5994700F86FF8 /* MockView */,
 				B5AE133C29E5409000F86FF8 /* ImageExample_MVPTests.swift */,
 			);
 			path = ImageExample_MVPTests;
@@ -197,6 +200,14 @@
 				B5AE136B29E55A6700F86FF8 /* UnsplashAPI.swift */,
 			);
 			path = API;
+			sourceTree = "<group>";
+		};
+		B5AE137429E5994700F86FF8 /* MockView */ = {
+			isa = PBXGroup;
+			children = (
+				B5AE137529E5995900F86FF8 /* ViewController_Mock.swift */,
+			);
+			path = MockView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -320,6 +331,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5AE137629E5995900F86FF8 /* ViewController_Mock.swift in Sources */,
 				B5AE133D29E5409000F86FF8 /* ImageExample_MVPTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

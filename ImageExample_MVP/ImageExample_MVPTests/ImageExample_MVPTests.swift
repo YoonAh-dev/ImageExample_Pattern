@@ -10,27 +10,45 @@ import XCTest
 
 final class ImageExample_MVPTests: XCTestCase {
 
+    private var sut: Presenter?
+    private var mockView: ViewController_Mock?
+
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        self.mockView = ViewController_Mock()
+        self.sut = Presenter(unsplashService: UnsplashService())
+        self.sut?.configureDelegation(self.mockView)
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        self.sut = nil
+        self.mockView = nil
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
+    func testExample() throws { }
 
     func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+        self.measure { }
     }
 
+    func test_increaseCount_countValue가_제대로_설정이_되는가() {
+        self.sut?.increaseCount()
+        XCTAssertEqual(2, self.mockView?.count)
+    }
+
+    func test_decreaseCount_count가_1일때_countValue가_제대로_설정이_되는가_fail() {
+        self.sut?.decreaseCount()
+        XCTAssertEqual(nil, self.mockView?.count)
+    }
+
+    func test_decreaseCount_count가_1일때_countValue가_제대로_설정이_되는가() {
+        self.sut?.decreaseCount()
+        XCTAssertEqual(1, self.mockView?.count)
+    }
+
+    func test_currentPage가_제대로_설정이_되는가() {
+        let width: Double = 100
+        let offset: Double = 400
+        self.sut?.changeCurrentPage(with: width, offset)
+        XCTAssertEqual(4, self.mockView?.currentPage)
+    }
 }
