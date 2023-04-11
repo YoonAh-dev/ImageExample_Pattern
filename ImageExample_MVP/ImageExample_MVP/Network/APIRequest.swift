@@ -16,9 +16,14 @@ final class APIRequest {
 
         switch httpResponse.statusCode {
         case (200..<300):
-            let decoder = JSONDecoder()
-            let baseModelData: T? = try decoder.decode(T.self, from: data)
-            return baseModelData
+            do {
+                let decoder = JSONDecoder()
+                let baseModelData: T? = try decoder.decode(T.self, from: data)
+                return baseModelData
+            } catch let error {
+                print("Decoding Error: ", error)
+                return nil
+            }
         case (300..<500):
             throw NetworkError.clientError(message: httpResponse.statusCode.description)
         default:
@@ -31,7 +36,6 @@ extension APIRequest {
     typealias UrlResponse = (Data, HTTPURLResponse)
 
     private func requestDataToUrl(_ request: NetworkRequest) async throws -> UrlResponse {
-        let sessionConfig = URLSessionConfiguration.default
         guard let encodedUrl = request.url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
             let url = URL(string: encodedUrl) else {
             throw NetworkError.encodingError
@@ -40,6 +44,9 @@ extension APIRequest {
 
         let (data, response) = try await URLSession.shared.data(for: request.buildURLRequest(with: url))
         guard let httpResponse = response as? HTTPURLResponse else { throw NetworkError.serverError }
+
+        print("data = \(data)")
+        print("response = \(response)")
 
         return (data, httpResponse)
     }

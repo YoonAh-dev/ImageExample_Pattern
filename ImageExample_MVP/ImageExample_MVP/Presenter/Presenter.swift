@@ -14,7 +14,7 @@ final class Presenter {
     private let unsplashService: UnsplashService
     private weak var viewDelegate: ViewControllerDelegate?
 
-    private var count: Int = 0
+    private var count: Int = 1
 
     // MARK: - init
 

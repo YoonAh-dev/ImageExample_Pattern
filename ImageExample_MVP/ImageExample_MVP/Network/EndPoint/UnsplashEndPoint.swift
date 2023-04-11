@@ -36,7 +36,10 @@ enum UnsplashEndPoint {
     }
 
     func createRequest() -> NetworkRequest {
+        var headers: [String: String] = [:]
+        headers["Authorization"] = "Client-ID KVtPVt64UrQx60c_6Ne2odkNi1hYv7UPnVh5DbhtjG4"
         return NetworkRequest(url: getURL(baseURL: APIEnvironment.url),
+                              headers: headers,
                               reqBody: requestBody,
                               reqTimeout: requestTimeOut,
                               httpMethod: httpMethod

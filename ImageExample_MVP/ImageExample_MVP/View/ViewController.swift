@@ -64,7 +64,9 @@ extension ViewController: ViewControllerDelegate {
     }
 
     func displayImages(imageURLs: [String]) {
-        self.imageURLs = imageURLs
-        self.pageControl.numberOfPages = imageURLs.count
+        DispatchQueue.main.async {
+            self.imageURLs = imageURLs
+            self.pageControl.numberOfPages = imageURLs.count
+        }
     }
 }

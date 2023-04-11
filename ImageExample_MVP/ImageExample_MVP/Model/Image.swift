@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct Image: Codable {
+struct Image: Decodable {
     let id: String?
-    let createdAt, updatedAt, promotedAt: Date?
+    let createdAt, updatedAt, promotedAt: String?
     let width, height: Int?
     let color, blurHash: String?
     let description: String?
@@ -44,8 +44,7 @@ struct Image: Codable {
     }
 }
 
-// MARK: - Exif
-struct Exif: Codable {
+struct Exif: Decodable {
     let make, model, name, exposureTime: String?
     let aperture, focalLength: String?
     let iso: Int?
@@ -59,7 +58,7 @@ struct Exif: Codable {
     }
 }
 
-struct ImageLinks: Codable {
+struct ImageLinks: Decodable {
     let linksSelf, html, download, downloadLocation: String?
 
     enum CodingKeys: String, CodingKey {
@@ -69,19 +68,19 @@ struct ImageLinks: Codable {
     }
 }
 
-struct Location: Codable {
+struct Location: Decodable {
     let name, city, country: String?
     let position: Position
 }
 
-struct Position: Codable {
+struct Position: Decodable {
     let latitude, longitude: Double?
 }
 
-struct TopicSubmissions: Codable {
+struct TopicSubmissions: Decodable {
 }
 
-struct Urls: Codable {
+struct Urls: Decodable {
     let raw, full, regular, small: String?
     let thumb, smallS3: String?
 
@@ -91,9 +90,9 @@ struct Urls: Codable {
     }
 }
 
-struct User: Codable {
+struct User: Decodable {
     let id: String?
-    let updatedAt: Date?
+    let updatedAt: String?
     let username, name, firstName, lastName: String?
     let twitterUsername: String?
     let portfolioURL: String?
@@ -126,7 +125,7 @@ struct User: Codable {
     }
 }
 
-struct UserLinks: Codable {
+struct UserLinks: Decodable {
     let linksSelf, html, photos, likes: String?
     let portfolio, following, followers: String?
 
@@ -136,11 +135,11 @@ struct UserLinks: Codable {
     }
 }
 
-struct ProfileImage: Codable {
+struct ProfileImage: Decodable {
     let small, medium, large: String?
 }
 
-struct Social: Codable {
+struct Social: Decodable {
     let instagramUsername: String?
     let portfolioURL: String?
     let twitterUsername: String?

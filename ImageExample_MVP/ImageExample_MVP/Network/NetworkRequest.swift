@@ -29,7 +29,7 @@ struct NetworkRequest {
 
     func buildURLRequest(with url: URL) -> URLRequest {
         var urlRequest = URLRequest(url: url)
-        urlRequest.setValue("Client-ID KVtPVt64UrQx60c_6Ne2odkNi1hYv7UPnVh5DbhtjG4", forHTTPHeaderField: "Authorization")
+        urlRequest.allHTTPHeaderFields = headers
         urlRequest.httpMethod = httpMethod
         urlRequest.httpBody = body
         return urlRequest
