@@ -23,6 +23,7 @@
 		B5AE136C29E55A6700F86FF8 /* UnsplashAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE136B29E55A6700F86FF8 /* UnsplashAPI.swift */; };
 		B5AE136E29E55CBE00F86FF8 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE136D29E55CBE00F86FF8 /* Image.swift */; };
 		B5AE137129E55F1800F86FF8 /* UnsplashService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE137029E55F1800F86FF8 /* UnsplashService.swift */; };
+		B5AE137329E569F900F86FF8 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE137229E569F900F86FF8 /* PhotoCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		B5AE136B29E55A6700F86FF8 /* UnsplashAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashAPI.swift; sourceTree = "<group>"; };
 		B5AE136D29E55CBE00F86FF8 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		B5AE137029E55F1800F86FF8 /* UnsplashService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashService.swift; sourceTree = "<group>"; };
+		B5AE137229E569F900F86FF8 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				B5AE132929E5408F00F86FF8 /* ViewController.swift */,
+				B5AE137229E569F900F86FF8 /* PhotoCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5AE136429E5569E00F86FF8 /* NetworkRequest.swift in Sources */,
+				B5AE137329E569F900F86FF8 /* PhotoCollectionViewCell.swift in Sources */,
 				B5AE136629E557C900F86FF8 /* NetworkError.swift in Sources */,
 				B5AE132A29E5408F00F86FF8 /* ViewController.swift in Sources */,
 				B5AE136829E557FD00F86FF8 /* UnsplashEndPoint.swift in Sources */,

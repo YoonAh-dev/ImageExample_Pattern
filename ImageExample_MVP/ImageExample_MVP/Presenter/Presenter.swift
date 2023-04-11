@@ -43,4 +43,9 @@ final class Presenter {
         let imageURLs = await self.unsplashService.imageURLs(count: self.count)
         self.viewDelegate?.displayImages(imageURLs: imageURLs)
     }
+
+    func changeCurrentPage(with width: Double, _ offset: Double) {
+        let currentPage = Int(offset / width)
+        self.viewDelegate?.changePageControl(currentPage: currentPage)
+    }
 }
