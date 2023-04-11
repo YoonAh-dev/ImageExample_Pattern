@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol ViewControllerDelegate: AnyObject {
+    func displayCount(_ count: Int)
+    func displayImages(imageURLs: [String])
+}
+
 final class ViewController: UIViewController {
 
     // MARK: - ui component
@@ -14,6 +19,12 @@ final class ViewController: UIViewController {
     @IBOutlet weak var photoCollectionView: UICollectionView!
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var photoCountLabel: UILabel!
+
+    // MARK: - property
+
+    private var imageURLs: [String] = [] {
+        didSet { self.photoCollectionView.reloadData() }
+    }
 
     // MARK: - life cycle
 
@@ -33,5 +44,17 @@ final class ViewController: UIViewController {
 
     @IBAction func didTapSubmitButton(_ sender: Any) {
 
+    }
+}
+
+// MARK: - ViewControllerDelegate
+extension ViewController: ViewControllerDelegate {
+    func displayCount(_ count: Int) {
+        self.photoCountLabel.text = count.description
+    }
+
+    func displayImages(imageURLs: [String]) {
+        self.imageURLs = imageURLs
+        self.pageControl.numberOfPages = imageURLs.count
     }
 }
