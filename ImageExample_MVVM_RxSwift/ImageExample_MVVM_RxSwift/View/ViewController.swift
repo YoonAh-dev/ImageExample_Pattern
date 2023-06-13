@@ -21,6 +21,17 @@ final class ViewController: UIViewController {
     @IBOutlet weak var rightButton: UIButton!
     @IBOutlet weak var submitButton: UIButton!
 
+    private let flowLayout: UICollectionViewFlowLayout = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.itemSize = CGSize(width: UIScreen.main.bounds.size.width,
+                                     height: UIScreen.main.bounds.size.width * 0.53)
+        flowLayout.minimumInteritemSpacing = .zero
+        flowLayout.minimumLineSpacing = .zero
+        flowLayout.sectionInset = .zero
+        return flowLayout
+    }()
+
     // MARK: - property
 
     private let disposeBag = DisposeBag()
@@ -30,11 +41,16 @@ final class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.configureUI()
         self.bindInput()
         self.bindOutput()
     }
 
     // MARK: - func
+
+    private func configureUI() {
+        self.photoCollectionView.collectionViewLayout = self.flowLayout
+    }
 
     private func bindInput() {
         self.leftButton.rx.controlEvent(.touchUpInside)
@@ -90,22 +106,3 @@ final class ViewController: UIViewController {
             .disposed(by: self.disposeBag)
     }
 }
-
-//// MARK: - UICollectionViewDelegateFlowLayout
-//extension ViewController: UICollectionViewDelegateFlowLayout {
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.width * 0.53)
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return 0
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return 0
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-//        return UIEdgeInsets.zero
-//    }
-//}
