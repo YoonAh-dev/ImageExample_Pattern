@@ -22,6 +22,7 @@ final class ViewModel {
 
     let countRelay: BehaviorRelay<Int> = BehaviorRelay(value: 1)
     let imageUrlRelay: BehaviorRelay<[String]> = BehaviorRelay(value: [])
+    let currentPageRelay: PublishRelay<Int> = PublishRelay()
 
     // MARK: - init
 
@@ -42,6 +43,11 @@ final class ViewModel {
             let urls = await self.service.imageURLs(count: count)
             self.imageUrlRelay.accept(urls)
         }
+    }
+
+    func handleCurrentPage(with width: Double, _ offset: Double) {
+        let currentPage = Int(offset / width)
+        self.currentPageRelay.accept(currentPage)
     }
 
     // MARK: - Private - func

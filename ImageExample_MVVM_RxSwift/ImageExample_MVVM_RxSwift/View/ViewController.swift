@@ -51,6 +51,15 @@ final class ViewController: UIViewController {
             .withUnretained(self)
             .bind { owner, _ in owner.viewModel.fetchImage() }
             .disposed(by: self.disposeBag)
+
+        self.photoCollectionView.rx.didScroll
+            .withUnretained(self)
+            .bind { owner, _ in
+                let width = owner.photoCollectionView.frame.width
+                let offset = owner.photoCollectionView.contentOffset.x
+                owner.viewModel.handleCurrentPage(with: width, offset)
+            }
+            .disposed(by: self.disposeBag)
     }
 
     private func bindOutput() {
@@ -59,24 +68,29 @@ final class ViewController: UIViewController {
             .bind(to: self.photoCountLabel.rx.text)
             .disposed(by: self.disposeBag)
 
-        self.viewModel.imageUrlRelay
+        self.viewModel.currentPageRelay
             .observe(on: MainScheduler.instance)
+            .bind(to: self.pageControl.rx.currentPage)
+            .disposed(by: self.disposeBag)
+
+        let imageUrlRelay = self.viewModel.imageUrlRelay
+            .observe(on: MainScheduler.instance)
+            .share()
+
+        imageUrlRelay
             .bind(to: self.photoCollectionView.rx.items(cellIdentifier: PhotoCollectionViewCell.identifier,
                                                         cellType: PhotoCollectionViewCell.self)) { index, element, cell in
                 cell.configureCell(imageURL: element)
             }
             .disposed(by: self.disposeBag)
+
+        imageUrlRelay
+            .map { $0.count }
+            .bind(to: self.pageControl.rx.numberOfPages)
+            .disposed(by: self.disposeBag)
     }
 }
 
-//// MARK: - UICollectionViewDelegate
-//extension ViewController: UICollectionViewDelegate {
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        let width = scrollView.frame.width
-//        let offset = scrollView.contentOffset.x
-//    }
-//}
-//
 //// MARK: - UICollectionViewDelegateFlowLayout
 //extension ViewController: UICollectionViewDelegateFlowLayout {
 //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
