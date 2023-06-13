@@ -28,6 +28,8 @@
 		B54A968A2A30B906000EFD01 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54A96892A30B906000EFD01 /* PhotoCollectionViewCell.swift */; };
 		B5F4ECE22A38574D006AECE0 /* PhotoCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F4ECE12A38574D006AECE0 /* PhotoCollectionViewDataSource.swift */; };
 		B5F4ECE52A385B36006AECE0 /* UIControl+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F4ECE42A385B36006AECE0 /* UIControl+Combine.swift */; };
+		B5F4ECE72A386B32006AECE0 /* UIScrollView+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F4ECE62A386B32006AECE0 /* UIScrollView+Combine.swift */; };
+		B5F4ECE92A386DA5006AECE0 /* Publisher+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F4ECE82A386DA5006AECE0 /* Publisher+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +75,8 @@
 		B54A96892A30B906000EFD01 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		B5F4ECE12A38574D006AECE0 /* PhotoCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		B5F4ECE42A385B36006AECE0 /* UIControl+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Combine.swift"; sourceTree = "<group>"; };
+		B5F4ECE62A386B32006AECE0 /* UIScrollView+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Combine.swift"; sourceTree = "<group>"; };
+		B5F4ECE82A386DA5006AECE0 /* Publisher+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,6 +251,8 @@
 			isa = PBXGroup;
 			children = (
 				B5F4ECE42A385B36006AECE0 /* UIControl+Combine.swift */,
+				B5F4ECE62A386B32006AECE0 /* UIScrollView+Combine.swift */,
+				B5F4ECE82A386DA5006AECE0 /* Publisher+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -393,12 +399,14 @@
 				B54A968A2A30B906000EFD01 /* PhotoCollectionViewCell.swift in Sources */,
 				B54A96412A30B7F0000EFD01 /* ViewController.swift in Sources */,
 				B54A96882A30B8D1000EFD01 /* APIEnvironment.swift in Sources */,
+				B5F4ECE72A386B32006AECE0 /* UIScrollView+Combine.swift in Sources */,
 				B54A963D2A30B7F0000EFD01 /* AppDelegate.swift in Sources */,
 				B54A96722A30B853000EFD01 /* ViewModel.swift in Sources */,
 				B54A96842A30B8C4000EFD01 /* NetworkRequest.swift in Sources */,
 				B54A963F2A30B7F0000EFD01 /* SceneDelegate.swift in Sources */,
 				B54A96752A30B859000EFD01 /* Image.swift in Sources */,
 				B54A96862A30B8CA000EFD01 /* APIRequest.swift in Sources */,
+				B5F4ECE92A386DA5006AECE0 /* Publisher+Extension.swift in Sources */,
 				B54A96822A30B8BD000EFD01 /* NetworkError.swift in Sources */,
 				B54A967D2A30B886000EFD01 /* UnsplashAPI.swift in Sources */,
 				B5F4ECE52A385B36006AECE0 /* UIControl+Combine.swift in Sources */,

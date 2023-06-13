@@ -71,14 +71,14 @@ final class ViewController: UIViewController {
             })
             .store(in: &cancelBag)
 
-//        self.photoCollectionView.rx.didScroll
-//            .withUnretained(self)
-//            .bind { owner, _ in
-//                let width = owner.photoCollectionView.frame.width
-//                let offset = owner.photoCollectionView.contentOffset.x
-//                owner.viewModel.handleCurrentPage(with: width, offset)
-//            }
-//            .disposed(by: self.disposeBag)
+        self.photoCollectionView.didScroll
+            .sink(receiveValue: { [weak self] _ in
+                if let width = self?.photoCollectionView.frame.width,
+                   let offset = self?.photoCollectionView.contentOffset.x {
+                    self?.viewModel.handleCurrentPage(with: width, offset)
+                }
+            })
+            .store(in: &cancelBag)
     }
 
     private func bindOutput() {

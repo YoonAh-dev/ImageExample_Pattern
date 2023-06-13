@@ -68,9 +68,3 @@ extension UIButton {
             .eraseToAnyPublisher()
     }
 }
-
-private extension Publisher {
-    func mapToVoid() -> Publishers.Map<Self, Void> {
-        return self.map { _ in Void() }
-    }
-}
