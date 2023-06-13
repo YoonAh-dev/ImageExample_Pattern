@@ -18,7 +18,16 @@ final class ViewModel {
 
     // MARK: - property
 
-    let countRelay: BehaviorRelay<Int> = BehaviorRelay(value: 0)
+    private let service: UnsplashService
+
+    let countRelay: BehaviorRelay<Int> = BehaviorRelay(value: 1)
+    let imageUrlRelay: BehaviorRelay<[String]> = BehaviorRelay(value: [])
+
+    // MARK: - init
+
+    init(service: UnsplashService) {
+        self.service = service
+    }
 
     // MARK: - func
     
@@ -28,7 +37,11 @@ final class ViewModel {
     }
 
     func fetchImage() {
-        
+        Task {
+            let count = self.countRelay.value
+            let urls = await self.service.imageURLs(count: count)
+            self.imageUrlRelay.accept(urls)
+        }
     }
 
     // MARK: - Private - func
@@ -38,7 +51,7 @@ final class ViewModel {
 
         switch direction {
         case .left:
-            guard currentValue > 0 else { return 0 }
+            guard currentValue > 1 else { return 1 }
             currentValue -= 1
         case .right:
             currentValue += 1

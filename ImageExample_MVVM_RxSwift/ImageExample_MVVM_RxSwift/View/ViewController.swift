@@ -24,7 +24,7 @@ final class ViewController: UIViewController {
     // MARK: - property
 
     private let disposeBag = DisposeBag()
-    private let viewModel: ViewModel = ViewModel()
+    private let viewModel: ViewModel = ViewModel(service: UnsplashService())
 
     // MARK: - life cycle
 
@@ -37,14 +37,19 @@ final class ViewController: UIViewController {
     // MARK: - func
 
     private func bindInput() {
-        self.leftButton.rx.tap
+        self.leftButton.rx.controlEvent(.touchUpInside)
             .withUnretained(self)
-            .bind { _ in self.viewModel.handleCount(with: .left) }
+            .bind { owner, _ in owner.viewModel.handleCount(with: .left) }
             .disposed(by: self.disposeBag)
 
-        self.rightButton.rx.tap
+        self.rightButton.rx.controlEvent(.touchUpInside)
             .withUnretained(self)
-            .bind { _ in self.viewModel.handleCount(with: .right) }
+            .bind { owner, _ in owner.viewModel.handleCount(with: .right) }
+            .disposed(by: self.disposeBag)
+
+        self.submitButton.rx.controlEvent(.touchUpInside)
+            .withUnretained(self)
+            .bind { owner, _ in owner.viewModel.fetchImage() }
             .disposed(by: self.disposeBag)
     }
 
@@ -52,24 +57,18 @@ final class ViewController: UIViewController {
         self.viewModel.countRelay
             .map { "\($0)" }
             .bind(to: self.photoCountLabel.rx.text)
-            .disposed(by: disposeBag)
-    }
+            .disposed(by: self.disposeBag)
 
+        self.viewModel.imageUrlRelay
+            .observe(on: MainScheduler.instance)
+            .bind(to: self.photoCollectionView.rx.items(cellIdentifier: PhotoCollectionViewCell.identifier,
+                                                        cellType: PhotoCollectionViewCell.self)) { index, element, cell in
+                cell.configureCell(imageURL: element)
+            }
+            .disposed(by: self.disposeBag)
+    }
 }
 
-//// MARK: - UICollectionViewDataSource
-//extension ViewController: UICollectionViewDataSource {
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return self.imageURLs.count
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.identifier, for: indexPath) as? PhotoCollectionViewCell else { return UICollectionViewCell() }
-//        cell.configureCell(imageURL: self.imageURLs[indexPath.item])
-//        return cell
-//    }
-//}
-//
 //// MARK: - UICollectionViewDelegate
 //extension ViewController: UICollectionViewDelegate {
 //    func scrollViewDidScroll(_ scrollView: UIScrollView) {
