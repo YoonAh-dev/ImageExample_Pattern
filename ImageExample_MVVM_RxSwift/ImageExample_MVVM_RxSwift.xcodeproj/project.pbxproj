@@ -29,6 +29,10 @@
 		B54A968D2A30BCA7000EFD01 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = B54A968C2A30BCA7000EFD01 /* RxCocoa */; };
 		B54A968F2A30BCA7000EFD01 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = B54A968E2A30BCA7000EFD01 /* RxRelay */; };
 		B54A96912A30BCA7000EFD01 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B54A96902A30BCA7000EFD01 /* RxSwift */; };
+		B54A969A2A384ACD000EFD01 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = B54A96992A384ACD000EFD01 /* RxCocoa */; };
+		B54A969C2A384ACD000EFD01 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = B54A969B2A384ACD000EFD01 /* RxRelay */; };
+		B54A969E2A384ACD000EFD01 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B54A969D2A384ACD000EFD01 /* RxSwift */; };
+		B54A96A02A384ACD000EFD01 /* RxTest in Frameworks */ = {isa = PBXBuildFile; productRef = B54A969F2A384ACD000EFD01 /* RxTest */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +93,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B54A96A02A384ACD000EFD01 /* RxTest in Frameworks */,
+				B54A969E2A384ACD000EFD01 /* RxSwift in Frameworks */,
+				B54A969C2A384ACD000EFD01 /* RxRelay in Frameworks */,
+				B54A969A2A384ACD000EFD01 /* RxCocoa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,6 +117,7 @@
 				B54A96522A30B7F1000EFD01 /* ImageExample_MVVM_RxSwiftTests */,
 				B54A965C2A30B7F2000EFD01 /* ImageExample_MVVM_RxSwiftUITests */,
 				B54A963A2A30B7F0000EFD01 /* Products */,
+				B54A96982A384ACD000EFD01 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -235,6 +244,13 @@
 			path = EndPoint;
 			sourceTree = "<group>";
 		};
+		B54A96982A384ACD000EFD01 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -274,6 +290,12 @@
 				B54A96512A30B7F1000EFD01 /* PBXTargetDependency */,
 			);
 			name = ImageExample_MVVM_RxSwiftTests;
+			packageProductDependencies = (
+				B54A96992A384ACD000EFD01 /* RxCocoa */,
+				B54A969B2A384ACD000EFD01 /* RxRelay */,
+				B54A969D2A384ACD000EFD01 /* RxSwift */,
+				B54A969F2A384ACD000EFD01 /* RxTest */,
+			);
 			productName = ImageExample_MVVM_RxSwiftTests;
 			productReference = B54A964F2A30B7F1000EFD01 /* ImageExample_MVVM_RxSwiftTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -749,6 +771,26 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B54A968B2A30BCA7000EFD01 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
+		};
+		B54A96992A384ACD000EFD01 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B54A968B2A30BCA7000EFD01 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		B54A969B2A384ACD000EFD01 /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B54A968B2A30BCA7000EFD01 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		B54A969D2A384ACD000EFD01 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B54A968B2A30BCA7000EFD01 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		B54A969F2A384ACD000EFD01 /* RxTest */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B54A968B2A30BCA7000EFD01 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxTest;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

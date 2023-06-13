@@ -6,24 +6,19 @@
 //
 
 import XCTest
+
 @testable import ImageExample_MVVM_RxSwift
 
 final class ImageExample_MVVM_RxSwiftTests: XCTestCase {
 
+    private var service: UnsplashService?
+
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        self.service = UnsplashService()
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+        self.service = nil
     }
 
     func testPerformanceExample() throws {
@@ -33,4 +28,13 @@ final class ImageExample_MVVM_RxSwiftTests: XCTestCase {
         }
     }
 
+    func test_fetch_image() {
+        Task {
+            let count = 3
+            let urls = await self.service?.imageURLs(count: count)
+            DispatchQueue.main.async {
+                XCTAssertEqual(urls?.count, count)
+            }
+        }
+    }
 }
