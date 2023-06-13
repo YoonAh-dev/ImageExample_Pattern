@@ -28,7 +28,7 @@ final class ViewModel {
     }
 
     // MARK: - func
-    
+
     func handleCount(with direction: Direction) {
         let count = self.calculateCount(with: direction)
 //        self.countRelay.accept(count)
@@ -61,5 +61,6 @@ final class ViewModel {
 //        }
 //
 //        return currentValue
+        return 0
     }
 }
