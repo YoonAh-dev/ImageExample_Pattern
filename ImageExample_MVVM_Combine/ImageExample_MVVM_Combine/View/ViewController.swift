@@ -33,6 +33,9 @@ final class ViewController: UIViewController {
 
     // MARK: - property
 
+    private let directionArrowDidTapSubject: PassthroughSubject<ViewModel.Direction, Never> = PassthroughSubject()
+    private let didScrollSubject: PassthroughSubject<(width: Double, offset: Double), Never> = PassthroughSubject()
+
     private var cancelBag = Set<AnyCancellable>()
     private let viewModel: ViewModel = ViewModel(service: UnsplashService())
 
@@ -41,8 +44,7 @@ final class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureUI()
-        self.bindInput()
-        self.bindOutput()
+        self.bind()
     }
 
     // MARK: - func
@@ -52,22 +54,28 @@ final class ViewController: UIViewController {
         self.photoCollectionView.dataSource = self.photoCollectionViewDataSource(items: [])
     }
 
+    private func bind() {
+        let input = ViewModel.Input(
+            directionArrowDidTap: self.directionArrowDidTapSubject,
+            submitDidTap: self.submitButton.tapPublisher,
+            didScroll: self.didScrollSubject
+        )
+        self.bindInput()
+        self.bindOutput(from: input)
+    }
+
     private func bindInput() {
         self.leftButton.tapPublisher
-            .sink(receiveValue: { [weak self] _ in
-                self?.viewModel.handleCount(with: .left)
+            .map { ViewModel.Direction.left }
+            .sink(receiveValue: { [weak self] in
+                self?.directionArrowDidTapSubject.send($0)
             })
             .store(in: &cancelBag)
 
         self.rightButton.tapPublisher
-            .sink(receiveValue: { [weak self] _ in
-                self?.viewModel.handleCount(with: .right)
-            })
-            .store(in: &cancelBag)
-
-        self.submitButton.tapPublisher
-            .sink(receiveValue: { [weak self] _ in
-                self?.viewModel.fetchImage()
+            .map { ViewModel.Direction.right }
+            .sink(receiveValue: { [weak self] in
+                self?.directionArrowDidTapSubject.send($0)
             })
             .store(in: &cancelBag)
 
@@ -75,24 +83,26 @@ final class ViewController: UIViewController {
             .sink(receiveValue: { [weak self] _ in
                 if let width = self?.photoCollectionView.frame.width,
                    let offset = self?.photoCollectionView.contentOffset.x {
-                    self?.viewModel.handleCurrentPage(with: width, offset)
+                    self?.didScrollSubject.send((width, offset))
                 }
             })
             .store(in: &cancelBag)
     }
 
-    private func bindOutput() {
-        self.viewModel.$count
+    private func bindOutput(from input: ViewModel.Input) {
+        let output = self.viewModel.transform(input: input)
+
+        output.countSubject
             .map { "\($0)" }
             .assign(to: \.text, on: self.photoCountLabel)
             .store(in: &cancelBag)
 
-        self.viewModel.currentPageSubject
+        output.currentPageSubject
             .receive(on: RunLoop.main)
             .assign(to: \.currentPage, on: self.pageControl)
             .store(in: &cancelBag)
 
-        let imageUrlPublisher = self.viewModel.$imageUrl
+        let imageUrlPublisher = output.imageUrlSubject
             .share()
 
         imageUrlPublisher
