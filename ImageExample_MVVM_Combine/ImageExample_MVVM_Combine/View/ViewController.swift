@@ -71,7 +71,7 @@ final class ViewController: UIViewController {
             })
             .store(in: &cancelBag)
 
-        self.photoCollectionView.didScroll
+        self.photoCollectionView.scrollPublisher
             .sink(receiveValue: { [weak self] _ in
                 if let width = self?.photoCollectionView.frame.width,
                    let offset = self?.photoCollectionView.contentOffset.x {

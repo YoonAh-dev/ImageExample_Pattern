@@ -40,20 +40,20 @@ extension UIScrollView {
             self.target = target
         }
 
-        public func request(_ demand: Subscribers.Demand) {}
+        func request(_ demand: Subscribers.Demand) {}
 
-        public func cancel() {
+        func cancel() {
             target = nil
         }
 
-        public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        func scrollViewDidScroll(_ scrollView: UIScrollView) {
             _ = target?.receive(.didScroll(scrollView: scrollView))
         }
     }
 }
 
 extension UIScrollView {
-    var didScroll: AnyPublisher<Void, Never> {
+    var scrollPublisher: AnyPublisher<Void, Never> {
         eventPublisher(for: .didScroll(scrollView: self))
             .mapToVoid()
             .eraseToAnyPublisher()
