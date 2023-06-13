@@ -26,6 +26,8 @@
 		B54A96862A30B8CA000EFD01 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54A96852A30B8CA000EFD01 /* APIRequest.swift */; };
 		B54A96882A30B8D1000EFD01 /* APIEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54A96872A30B8D1000EFD01 /* APIEnvironment.swift */; };
 		B54A968A2A30B906000EFD01 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54A96892A30B906000EFD01 /* PhotoCollectionViewCell.swift */; };
+		B5F4ECE22A38574D006AECE0 /* PhotoCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F4ECE12A38574D006AECE0 /* PhotoCollectionViewDataSource.swift */; };
+		B5F4ECE52A385B36006AECE0 /* UIControl+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F4ECE42A385B36006AECE0 /* UIControl+Combine.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +71,8 @@
 		B54A96852A30B8CA000EFD01 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		B54A96872A30B8D1000EFD01 /* APIEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEnvironment.swift; sourceTree = "<group>"; };
 		B54A96892A30B906000EFD01 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		B5F4ECE12A38574D006AECE0 /* PhotoCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewDataSource.swift; sourceTree = "<group>"; };
+		B5F4ECE42A385B36006AECE0 /* UIControl+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Combine.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +131,7 @@
 				B54A966E2A30B82E000EFD01 /* View */,
 				B54A966D2A30B81D000EFD01 /* Resource */,
 				B54A966C2A30B80C000EFD01 /* Support */,
+				B5F4ECE32A385B26006AECE0 /* Extension */,
 			);
 			path = ImageExample_MVVM_Combine;
 			sourceTree = "<group>";
@@ -172,6 +177,7 @@
 			children = (
 				B54A96402A30B7F0000EFD01 /* ViewController.swift */,
 				B54A96892A30B906000EFD01 /* PhotoCollectionViewCell.swift */,
+				B5F4ECE12A38574D006AECE0 /* PhotoCollectionViewDataSource.swift */,
 				B54A96422A30B7F0000EFD01 /* Main.storyboard */,
 			);
 			path = View;
@@ -235,6 +241,14 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B5F4ECE32A385B26006AECE0 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				B5F4ECE42A385B36006AECE0 /* UIControl+Combine.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -374,6 +388,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5F4ECE22A38574D006AECE0 /* PhotoCollectionViewDataSource.swift in Sources */,
 				B54A96802A30B89E000EFD01 /* UnsplashEndPoint.swift in Sources */,
 				B54A968A2A30B906000EFD01 /* PhotoCollectionViewCell.swift in Sources */,
 				B54A96412A30B7F0000EFD01 /* ViewController.swift in Sources */,
@@ -386,6 +401,7 @@
 				B54A96862A30B8CA000EFD01 /* APIRequest.swift in Sources */,
 				B54A96822A30B8BD000EFD01 /* NetworkError.swift in Sources */,
 				B54A967D2A30B886000EFD01 /* UnsplashAPI.swift in Sources */,
+				B5F4ECE52A385B36006AECE0 /* UIControl+Combine.swift in Sources */,
 				B54A96792A30B873000EFD01 /* UnsplashService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

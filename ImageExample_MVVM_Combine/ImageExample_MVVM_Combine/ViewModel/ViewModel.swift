@@ -5,6 +5,7 @@
 //  Created by SHIN YOON AH on 2023/06/07.
 //
 
+import Combine
 import Foundation
 
 final class ViewModel {
@@ -17,9 +18,10 @@ final class ViewModel {
 
     private let service: UnsplashService
 
-//    let countRelay: BehaviorRelay<Int> = BehaviorRelay(value: 1)
-//    let imageUrlRelay: BehaviorRelay<[String]> = BehaviorRelay(value: [])
-//    let currentPageRelay: PublishRelay<Int> = PublishRelay()
+    @Published var count: Int = 1
+    @Published var imageUrl: [String] = []
+
+    let currentPageSubject: PassthroughSubject<Int, Never> = PassthroughSubject()
 
     // MARK: - init
 
@@ -30,37 +32,35 @@ final class ViewModel {
     // MARK: - func
 
     func handleCount(with direction: Direction) {
-        let count = self.calculateCount(with: direction)
-//        self.countRelay.accept(count)
+        self.count = self.calculateCount(with: direction)
     }
 
     func fetchImage() {
         Task {
-//            let count = self.countRelay.value
-//            let urls = await self.service.imageURLs(count: count)
-//            self.imageUrlRelay.accept(urls)
+            let count = self.count
+            let urls = await self.service.imageURLs(count: count)
+            self.imageUrl = urls
         }
     }
 
     func handleCurrentPage(with width: Double, _ offset: Double) {
         let currentPage = Int(offset / width)
-//        self.currentPageRelay.accept(currentPage)
+        self.currentPageSubject.send(currentPage)
     }
 
     // MARK: - Private - func
 
     private func calculateCount(with direction: Direction) -> Int {
-//        var currentValue = self.countRelay.value
-//
-//        switch direction {
-//        case .left:
-//            guard currentValue > 1 else { return 1 }
-//            currentValue -= 1
-//        case .right:
-//            currentValue += 1
-//        }
-//
-//        return currentValue
-        return 0
+        var currentValue = self.count
+
+        switch direction {
+        case .left:
+            guard currentValue > 1 else { return 1 }
+            currentValue -= 1
+        case .right:
+            currentValue += 1
+        }
+
+        return currentValue
     }
 }
