@@ -1,6 +1,8 @@
-## 🎨 MVP 패턴을 사용한 원하는만큼 Unsplash 이미지를 가져오는 프로젝트
+## 🎨 MVVM 패턴을 사용한 원하는만큼 Unsplash 이미지를 가져오는 프로젝트
 
-[MVP 패턴](https://yoonah-dev.oopy.io/25e43b61-61e1-4972-b590-6a8eb52fea31)에서 제가 정리해둔 MVP 패턴에 대한 정보를 보실 수 있습니다. 잘못된 부분이 있다면 언제든 노션 블로그 채널톡으로 연락주세요.🙇‍♂️
+이전에 만들어둔 [MVP Example](https://github.com/YoonAh-dev/ImageExample_Pattern/tree/mvp)에 대한 설명은 `mvp` 브랜치에서 확인할 수 있습니다.
+
+[MVVM 패턴](https://yoonah-dev.oopy.io/9ce987de-36b7-476e-9744-66077124b379)에서 제가 정리해둔 MVVM 패턴에 대한 정보를 보실 수 있습니다. 잘못된 부분이 있다면 언제든 노션 블로그 채널톡으로 연락주세요.🙇‍♂️
 
 <br>
 
@@ -12,72 +14,34 @@
 
 <br>
 
-### ⓶ 프로젝트에서 MVP를 어떻게 분리했는가?
+### ⓶ 프로젝트에서 MVVM를 어떻게 분리했는가?
 
-<img width="1040" alt="스크린샷 2023-04-11 오후 11 12 57" src="https://user-images.githubusercontent.com/55099365/231190640-5711338f-1359-499f-82f3-328b0b3bdb7b.png">
+<img width="1040" alt="스크린샷 2023-04-11 오후 11 12 57" src="https://github.com/YoonAh-dev/ImageExample_Pattern/assets/55099365/84b6eda2-3098-4196-b1c7-16dd78b2ec65">
 
 * `Service`라는 클래스를 만들어서 Model에 관련한 로직을 다루도록 했습니다.
-* `Service` 클래스는 Presenter가 소유하고 있습니다.
-* `View Interface`를 만들어서 Presenter가 Delegate를 통해서 UI Update를 진행하도록 했습니다.
-* `Interface`로 인해서 Presenter와 View는 느슨하게 연결되어 있습니다.
-* ViewController(View)는 Presenter를 소유하고 있습니다.
+* `Service` 클래스는 ViewModel이 소유하고 있습니다.
+* ViewController(View)는 ViewModel를 소유하고 있습니다.
 
 <br>
 
-### ⓷ Testable MVP
-테스트 클래스 `ImageExample_MVPTests`에서 Presenter 내부에 메서드들을 테스트했습니다. Presenter가 제대로 Value를 바꿨는지를 확인하기 위해서 MockView를 생성하여 테스트를 진행했습니다.
+### ⓷ RxSwift
 
-```swift
-@testable import ImageExample_MVP
+ImageExample_MVVM_RxSwift에서는 RxSwift를 사용해서 바인딩을 진행했습니다.
 
-final class ViewController_Mock: ViewControllerDelegate {
+RxSwift로 코드를 구성한 방식은 [해당 포스팅](https://yoonah-dev.oopy.io/e36f5e35-7872-40ba-9a7b-319a9f597e2a)에서 확인하실 수 있습니다.
 
-    // MARK: - property
+`mvvm/rxswift` 브랜치에는 ViewController에서 ViewModel의 메서드 호출을 통해서 유저 액션을 보내고, ViewModel에 있는 Relay로부터 들어오는 데이터를 받아서 UI를 업데이트합니다.
 
-    var count: Int?
-    var urls: [String]?
-    var currentPage: Int?
-
-    // MARK: - func
-
-    func displayCount(_ count: Int) {
-        self.count = count
-    }
-
-    func displayImages(imageURLs: [String]) {
-        self.urls = imageURLs
-    }
-
-    func changePageControl(currentPage: Int) {
-        self.currentPage = currentPage
-    }
-}
-```
-
-* displayCount 메서드에서 count를 적절하게 변경했는지 확인했습니다.
-* changePageControl 메서드에서 width, offsetX에 맞게끔 currentPage가 바뀌었는지 확인했습니다.
+`main`, `mvvm/input-output` 브랜치에는 ViewController가 ViewModel에 있는 Iuput 구조체로 유저 액션을 스트림 형태로 보내고 ViewModel에 있는 Output 구조체를 통해서 Relay로부터 들어오는 데이터를 받아서 UI를 업데이트 합니다.
 
 <br>
 
-#### ☑️ Count 관련 Test
-```swift
-func test_increaseCount_countValue가_제대로_설정이_되는가() {
-    self.sut?.increaseCount()
-    XCTAssertEqual(2, self.mockView?.count)
-}
+### ⓸ Combine
 
-func test_decreaseCount_count가_1일때_countValue가_제대로_설정이_되는가() {
-    self.sut?.decreaseCount()
-    XCTAssertEqual(nil, self.mockView?.count)
-}
-```
+ImageExample_MVVM_Combine에서는 Combine를 사용해서 바인딩을 진행했습니다.
 
-#### ☑️ CurrentPage 관련 Test
-```swift
-func test_currentPage가_제대로_설정이_되는가() {
-    let width: Double = 100
-    let offset: Double = 400
-    self.sut?.changeCurrentPage(with: width, offset)
-    XCTAssertEqual(4, self.mockView?.currentPage)
-}
-```
+Combine으로 코드를 구성한 방식은 [해당 포스팅](https://yoonah-dev.oopy.io/3b140db6-be28-43b6-952c-e16b16b0bb2d)에서 확인하실 수 있습니다.
+
+`mvvm/combine` 브랜치에는 ViewController에서 ViewModel의 메서드 호출을 통해서 유저 액션을 보내고, ViewModel에 있는 Subject, Publisher로부터 들어오는 데이터를 받아서 UI를 업데이트합니다.
+
+`main`, `mvvm/input-output` 브랜치에는 ViewController가 ViewModel에 있는 Iuput 구조체로 유저 액션을 스트림 형태로 보내고 ViewModel에 있는 Output 구조체를 통해서 Subject로부터 들어오는 데이터를 받아서 UI를 업데이트 합니다.
