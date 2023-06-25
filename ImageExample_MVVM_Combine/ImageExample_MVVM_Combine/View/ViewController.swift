@@ -10,6 +10,10 @@ import UIKit
 
 final class ViewController: UIViewController {
 
+    private enum Section {
+        case main
+    }
+
     // MARK: - ui component
 
     @IBOutlet weak var photoCollectionView: UICollectionView!
@@ -29,7 +33,8 @@ final class ViewController: UIViewController {
         flowLayout.sectionInset = .zero
         return flowLayout
     }()
-    private var dataSource: PhotoCollectionViewDataSource<PhotoCollectionViewCell, String>!
+    private var dataSource: UICollectionViewDiffableDataSource<Section, String>!
+    private var snapshot: NSDiffableDataSourceSnapshot<Section, String>!
 
     // MARK: - property
 
@@ -44,6 +49,7 @@ final class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureUI()
+        self.configureDataSource()
         self.bind()
     }
 
@@ -51,7 +57,6 @@ final class ViewController: UIViewController {
 
     private func configureUI() {
         self.photoCollectionView.collectionViewLayout = self.flowLayout
-        self.photoCollectionView.dataSource = self.photoCollectionViewDataSource(items: [])
     }
 
     private func bind() {
@@ -106,13 +111,10 @@ final class ViewController: UIViewController {
             .share()
 
         imageUrlPublisher
-            .map { self.photoCollectionViewDataSource(items: $0) }
             .receive(on: RunLoop.main)
-            .sink(receiveValue: { [weak self] dataSource in
+            .sink(receiveValue: { [weak self] items in
                 guard let self = self else { return }
-                self.dataSource = dataSource
-                self.photoCollectionView.dataSource = self.dataSource
-                self.photoCollectionView.reloadData()
+                self.reloadUrlList(items)
             })
             .store(in: &cancelBag)
 
@@ -122,13 +124,38 @@ final class ViewController: UIViewController {
             .assign(to: \.numberOfPages, on: self.pageControl)
             .store(in: &cancelBag)
     }
+}
 
-    private func photoCollectionViewDataSource<T>(items: [T]) -> PhotoCollectionViewDataSource<PhotoCollectionViewCell, T> {
-        return PhotoCollectionViewDataSource(identifier: PhotoCollectionViewCell.identifier,
-                                             items: items) { cell, item in
-            if let item = item as? String {
+// MARK: - DataSource
+extension ViewController {
+    private func configureDataSource() {
+        self.dataSource = self.photoCollectionViewDataSource()
+        self.configureSnapshot()
+    }
+
+    private func photoCollectionViewDataSource() -> UICollectionViewDiffableDataSource<Section, String> {
+        return UICollectionViewDiffableDataSource(
+            collectionView: self.photoCollectionView,
+            cellProvider: { collectionView, indexPath, item -> UICollectionViewCell? in
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.identifier, for: indexPath) as? PhotoCollectionViewCell else { return UICollectionViewCell() }
                 cell.configureCell(imageURL: item)
-            }
-        }
+                return cell
+            })
+    }
+}
+
+// MARK: - Snapshot
+extension ViewController {
+    private func configureSnapshot() {
+        self.snapshot = NSDiffableDataSourceSnapshot<Section, String>()
+        self.snapshot.appendSections([.main])
+        self.dataSource.apply(self.snapshot, animatingDifferences: true)
+    }
+
+    private func reloadUrlList(_ items: [String]) {
+        let previousImageUrls = self.snapshot.itemIdentifiers(inSection: .main)
+        self.snapshot.deleteItems(previousImageUrls)
+        self.snapshot.appendItems(items, toSection: .main)
+        self.dataSource.apply(self.snapshot, animatingDifferences: true)
     }
 }
