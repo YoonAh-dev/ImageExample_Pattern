@@ -23,16 +23,6 @@ final class ViewController: UIViewController {
     @IBOutlet weak var rightButton: UIButton!
     @IBOutlet weak var submitButton: UIButton!
 
-    private let flowLayout: UICollectionViewFlowLayout = {
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .horizontal
-        flowLayout.itemSize = CGSize(width: UIScreen.main.bounds.size.width,
-                                     height: UIScreen.main.bounds.size.width * 0.53)
-        flowLayout.minimumInteritemSpacing = .zero
-        flowLayout.minimumLineSpacing = .zero
-        flowLayout.sectionInset = .zero
-        return flowLayout
-    }()
     private var dataSource: UICollectionViewDiffableDataSource<Section, String>!
     private var snapshot: NSDiffableDataSourceSnapshot<Section, String>!
 
@@ -56,7 +46,7 @@ final class ViewController: UIViewController {
     // MARK: - func
 
     private func configureUI() {
-        self.photoCollectionView.collectionViewLayout = self.flowLayout
+        self.photoCollectionView.collectionViewLayout = self.createLayout()
     }
 
     private func bind() {
@@ -81,15 +71,6 @@ final class ViewController: UIViewController {
             .map { ViewModel.Direction.right }
             .sink(receiveValue: { [weak self] in
                 self?.directionArrowDidTapSubject.send($0)
-            })
-            .store(in: &cancelBag)
-
-        self.photoCollectionView.scrollPublisher
-            .sink(receiveValue: { [weak self] _ in
-                if let width = self?.photoCollectionView.frame.width,
-                   let offset = self?.photoCollectionView.contentOffset.x {
-                    self?.didScrollSubject.send((width, offset))
-                }
             })
             .store(in: &cancelBag)
     }
@@ -157,5 +138,44 @@ extension ViewController {
         self.snapshot.deleteItems(previousImageUrls)
         self.snapshot.appendItems(items, toSection: .main)
         self.dataSource.apply(self.snapshot, animatingDifferences: true)
+    }
+}
+
+// MARK: - UICollectionViewLayout
+extension ViewController {
+    private func createLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { index, environment -> NSCollectionLayoutSection? in
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .fractionalWidth(0.53)
+            )
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .fractionalWidth(0.53)
+            )
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+
+            let section = NSCollectionLayoutSection(group: group)
+            section.orthogonalScrollingBehavior = .groupPaging
+            section.contentInsets = .zero
+            section.interGroupSpacing = .zero
+            section.visibleItemsInvalidationHandler = self.visibleItems()
+
+            return section
+        }
+
+        return layout
+    }
+
+    private func visibleItems() -> NSCollectionLayoutSectionVisibleItemsInvalidationHandler? {
+        return { [weak self] items, offset, environment in
+            guard let self = self else { return }
+            let width = self.photoCollectionView.bounds.width
+            let offset = offset.x
+            
+            self.didScrollSubject.send((width, offset))
+        }
     }
 }
