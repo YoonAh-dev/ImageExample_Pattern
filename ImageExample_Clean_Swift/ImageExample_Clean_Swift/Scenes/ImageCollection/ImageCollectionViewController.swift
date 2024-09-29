@@ -7,15 +7,24 @@
 //
 //
 
+import Combine
 import UIKit
 
 protocol ImageCollectionDisplayLogic: AnyObject {
-    func displaySomething(viewModel: ImageCollection.Something.ViewModel)
+    func displayCount(viewModel: ImageCollection.PhotoCollectionCount.ViewModel)
+    func displayPhotoCollection(viewModel: ImageCollection.PhotoCollection.ViewModel)
+    func displayCurrentPage(viewModel: ImageCollection.PhotoCollectionPage.ViewModel)
 }
 
 final class ImageCollectionViewController: UIViewController, ImageCollectionDisplayLogic {
     
+    // MARK: - ui component
+    
+    private lazy var contentView = ImageCollectionView(frame: view.frame)
+    
     // MARK: - property
+    
+    private var cancellables: Set<AnyCancellable> = []
     
     private var interactor: ImageCollectionBusinessLogic?
     private var router: (ImageCollectionRoutingLogic & ImageCollectionDataPassing)?
@@ -51,24 +60,76 @@ final class ImageCollectionViewController: UIViewController, ImageCollectionDisp
     
     override func loadView() {
         super.loadView()
-        view = ImageCollectionView(frame: view.frame)
+        view = contentView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        doSomething()
+        start()
+        setupAction()
     }
     
     // MARK: - func
     
-    private func doSomething() {
-        let request = ImageCollection.Something.Request()
-        interactor?.doSomething(request: request)
+    private func setupAction() {
+        contentView.leftButtonTapGesture
+            .sink { [weak self] in
+                self?.tapLeftButton()
+            }.store(in: &cancellables)
+        
+        contentView.rightButtonTapGesture
+            .sink { [weak self] in
+                self?.tapRightButton()
+            }.store(in: &cancellables)
+        
+        contentView.submitButtonTapGesture
+            .sink { [weak self] in
+                self?.tapSubmitButton()
+            }.store(in: &cancellables)
+        
+        contentView.pageControlValueDidChange
+            .sink { [weak self] value in
+                self?.scrollCollectionView(width: value.width, offset: value.offset)
+            }.store(in: &cancellables)
+    }
+    
+    // MARK: - component - func
+    
+    private func start() {
+        interactor?.start()
+    }
+    
+    private func tapLeftButton() {
+        let request = ImageCollection.PhotoCollectionCount.Request(direction: .left)
+        interactor?.changeCount(request: request)
+    }
+    
+    private func tapRightButton() {
+        let request = ImageCollection.PhotoCollectionCount.Request(direction: .right)
+        interactor?.changeCount(request: request)
+    }
+    
+    private func tapSubmitButton() {
+        let request = ImageCollection.PhotoCollection.Request()
+        interactor?.fetchPhotoCollection(request: request)
+    }
+    
+    private func scrollCollectionView(width: Double, offset: Double) {
+        let request = ImageCollection.PhotoCollectionPage.Request(width: width, offset: offset)
+        interactor?.changeToPage(request: request)
     }
     
     // MARK: - display - func
     
-    public func displaySomething(viewModel: ImageCollection.Something.ViewModel) {
-        
+    public func displayCount(viewModel: ImageCollection.PhotoCollectionCount.ViewModel) {
+        contentView.setupCountLabel(count: viewModel.count)
+    }
+    
+    public func displayPhotoCollection(viewModel: ImageCollection.PhotoCollection.ViewModel) {
+        contentView.setupPhotoCollectionView(photoURLs: viewModel.photoURLs)
+    }
+    
+    public func displayCurrentPage(viewModel: ImageCollection.PhotoCollectionPage.ViewModel) {
+        contentView.setupCurrentPage(index: viewModel.page)
     }
 }

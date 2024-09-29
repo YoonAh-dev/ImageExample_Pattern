@@ -5,6 +5,7 @@
 //  Created by SHIN YOON AH on 9/29/24.
 //
 
+import Combine
 import UIKit
 import SnapKit
 
@@ -22,12 +23,15 @@ final class ImageCollectionView: UIView {
             collectionViewLayout: createLayout()
         )
         collectionView.backgroundColor = .systemBackground
+        collectionView.register(
+            PhotoCollectionViewCell.self,
+            forCellWithReuseIdentifier: PhotoCollectionViewCell.identifier
+        )
         return collectionView
     }()
     private let pageControl: UIPageControl = UIPageControl()
     private let photoCountLabel: UILabel = {
         let label = UILabel()
-        label.text = "0"
         label.font = .systemFont(ofSize: 30, weight: .semibold)
         return label
     }()
@@ -52,6 +56,19 @@ final class ImageCollectionView: UIView {
     private var dataSource: UICollectionViewDiffableDataSource<Section, String>!
     private var snapshot: NSDiffableDataSourceSnapshot<Section, String>!
     
+    // MARK: - internal - property
+    
+    var leftButtonTapGesture: AnyPublisher<Void, Never> {
+        return leftButton.tapPublisher
+    }
+    var rightButtonTapGesture: AnyPublisher<Void, Never> {
+        return rightButton.tapPublisher
+    }
+    var submitButtonTapGesture: AnyPublisher<Void, Never> {
+        return submitButton.tapPublisher
+    }
+    var pageControlValueDidChange = PassthroughSubject<(width: Double, offset: Double), Never>()
+    
     // MARK: - init
     
     override init(frame: CGRect) {
@@ -59,6 +76,7 @@ final class ImageCollectionView: UIView {
         configureUI()
         addSubViews()
         setupLayout()
+        configureDataSource()
     }
     
     @available(*, unavailable)
@@ -66,7 +84,7 @@ final class ImageCollectionView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - func
+    // MARK: - setup
     
     private func configureUI() {
         backgroundColor = .systemGray
@@ -89,7 +107,7 @@ final class ImageCollectionView: UIView {
         }
         
         pageControl.snp.makeConstraints {
-            $0.top.equalTo(photoCollectionView.snp.bottom).offset(-10)
+            $0.top.equalTo(photoCollectionView.snp.bottom).offset(10)
             $0.directionalHorizontalEdges.equalToSuperview().inset(20)
             $0.centerX.equalToSuperview()
         }
@@ -114,18 +132,44 @@ final class ImageCollectionView: UIView {
             $0.centerX.equalToSuperview()
         }
     }
+    
+    // MARK: - internal - func
+    
+    func setupCountLabel(count: String) {
+        photoCountLabel.text = count
+    }
+    
+    func setupPhotoCollectionView(photoURLs: [String]) {
+        DispatchQueue.main.async { [weak self] in
+            self?.reloadURLList(photoURLs)
+            self?.updatePageControl()
+        }
+    }
+    
+    func setupCurrentPage(index: Int) {
+        DispatchQueue.main.async { [weak self] in
+            self?.pageControl.currentPage = index
+        }
+    }
+    
+    // MARK: - helper - func
+    
+    private func updatePageControl() {
+        pageControl.numberOfPages = photoCollectionView.numberOfItems(inSection: .zero)
+        pageControl.currentPage = photoCollectionView.indexPathsForVisibleItems.first?.item ?? 0
+    }
 }
 
 // MARK: - DataSource
 extension ImageCollectionView {
     private func configureDataSource() {
-        self.dataSource = self.photoCollectionViewDataSource()
-        self.configureSnapshot()
+        dataSource = photoCollectionViewDataSource()
+        configureSnapshot()
     }
 
     private func photoCollectionViewDataSource() -> UICollectionViewDiffableDataSource<Section, String> {
         return UICollectionViewDiffableDataSource(
-            collectionView: self.photoCollectionView,
+            collectionView: photoCollectionView,
             cellProvider: { collectionView, indexPath, item -> UICollectionViewCell? in
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.identifier, for: indexPath) as? PhotoCollectionViewCell else { return UICollectionViewCell() }
                 cell.configureCell(imageURL: item)
@@ -137,23 +181,23 @@ extension ImageCollectionView {
 // MARK: - Snapshot
 extension ImageCollectionView {
     private func configureSnapshot() {
-        self.snapshot = NSDiffableDataSourceSnapshot<Section, String>()
-        self.snapshot.appendSections([.main])
-        self.dataSource.apply(self.snapshot, animatingDifferences: true)
+        snapshot = NSDiffableDataSourceSnapshot<Section, String>()
+        snapshot.appendSections([.main])
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 
-    private func reloadUrlList(_ items: [String]) {
-        let previousImageUrls = self.snapshot.itemIdentifiers(inSection: .main)
-        self.snapshot.deleteItems(previousImageUrls)
-        self.snapshot.appendItems(items, toSection: .main)
-        self.dataSource.apply(self.snapshot, animatingDifferences: true)
+    private func reloadURLList(_ items: [String]) {
+        let previousImageUrls = snapshot.itemIdentifiers(inSection: .main)
+        snapshot.deleteItems(previousImageUrls)
+        snapshot.appendItems(items, toSection: .main)
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
 
 // MARK: - UICollectionViewLayout
 extension ImageCollectionView {
     private func createLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { index, environment -> NSCollectionLayoutSection? in
+        let layout = UICollectionViewCompositionalLayout { [weak self] index, environment -> NSCollectionLayoutSection? in
             let itemSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
                 heightDimension: .fractionalWidth(0.53)
@@ -170,7 +214,7 @@ extension ImageCollectionView {
             section.orthogonalScrollingBehavior = .groupPaging
             section.contentInsets = .zero
             section.interGroupSpacing = .zero
-            section.visibleItemsInvalidationHandler = self.visibleItems()
+            section.visibleItemsInvalidationHandler = self?.visibleItems()
 
             return section
         }
@@ -184,7 +228,7 @@ extension ImageCollectionView {
             let width = self.photoCollectionView.bounds.width
             let offset = offset.x
             
-//            self.didScrollSubject.send((width, offset))
+            self.pageControlValueDidChange.send((width, offset))
         }
     }
 }

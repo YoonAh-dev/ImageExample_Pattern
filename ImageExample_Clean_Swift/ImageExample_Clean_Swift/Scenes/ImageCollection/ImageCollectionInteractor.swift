@@ -10,30 +10,60 @@
 import UIKit
 
 protocol ImageCollectionBusinessLogic {
-    func doSomething(request: ImageCollection.Something.Request)
+    func start()
+    func changeCount(request: ImageCollection.PhotoCollectionCount.Request)
+    func fetchPhotoCollection(request: ImageCollection.PhotoCollection.Request)
+    func changeToPage(request: ImageCollection.PhotoCollectionPage.Request)
 }
 
 protocol ImageCollectionDataStore {
-    //var name: String { get set }
+    var count: Int { get set }
 }
 
 final class ImageCollectionInteractor: ImageCollectionBusinessLogic, ImageCollectionDataStore {
+
+    // MARK: - datastore - property
+    
+    var count: Int = 0
     
     // MARK: - property
     
+    let photosWorker = PhotosWorkerImpl(unsplashAPI: UnsplashAPI())
+    
     var presenter: ImageCollectionPresentationLogic?
-    
-//    private var worker: ImageCollectionWorker?
-    
-    //var name: String = ""
     
     // MARK: - public - func
     
-    public func doSomething(request: ImageCollection.Something.Request) {
-//        worker = ImageCollectionWorkerImpl()
-//        worker?.doSomeWork()
-        
-        let response = ImageCollection.Something.Response()
-        presenter?.presentSomething(response: response)
+    public func start() {
+        let response = ImageCollection.PhotoCollectionCount.Response(count: count)
+        presenter?.presentCount(response: response)
+    }
+    
+    public func changeCount(request: ImageCollection.PhotoCollectionCount.Request) {
+        switch request.direction {
+        case .left:
+            if count == 0 { return }
+            count -= 1
+        case .right:
+            count += 1
+        }
+        let response = ImageCollection.PhotoCollectionCount.Response(count: count)
+        presenter?.presentCount(response: response)
+    }
+    
+    public func fetchPhotoCollection(request: ImageCollection.PhotoCollection.Request) {
+        Task { [weak photosWorker, presenter] in
+            let urls = await photosWorker?.fetchRandomPhotoURLs(count: count) ?? []
+            let response = ImageCollection.PhotoCollection.Response(photoURLs: urls)
+            presenter?.presentPhotoCollection(response: response)
+        }
+    }
+    
+    public func changeToPage(request: ImageCollection.PhotoCollectionPage.Request) {
+        let width = request.width
+        let offset = request.offset
+        let page = Int(offset / width)
+        let response = ImageCollection.PhotoCollectionPage.Response(page: page)
+        presenter?.presentCurrentPage(response: response)
     }
 }

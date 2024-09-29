@@ -17,8 +17,7 @@ protocol ImageCollectionDataPassing {
     var dataStore: ImageCollectionDataStore? { get }
 }
 
-final class ImageCollectionRouter: NSObject, ImageCollectionRoutingLogic, ImageCollectionDataPassing
-{
+final class ImageCollectionRouter: NSObject, ImageCollectionRoutingLogic, ImageCollectionDataPassing {
     weak var viewController: ImageCollectionViewController?
     var dataStore: ImageCollectionDataStore?
     

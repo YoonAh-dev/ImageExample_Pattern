@@ -11,14 +11,43 @@ import UIKit
 
 enum ImageCollection {
     
-    enum Something {
+    enum PhotoCollection {
         struct Request {
         }
-        
         struct Response {
+            let photoURLs: [String]
         }
-        
         struct ViewModel {
+            let photoURLs: [String]
+        }
+    }
+    
+    enum PhotoCollectionCount {
+        struct Request {
+            let direction: Direction
+            
+            enum Direction {
+                case left, right
+            }
+        }
+        struct Response {
+            let count: Int
+        }
+        struct ViewModel {
+            let count: String
+        }
+    }
+    
+    enum PhotoCollectionPage {
+        struct Request {
+            let width: Double
+            let offset: Double
+        }
+        struct Response {
+            let page: Int
+        }
+        struct ViewModel {
+            let page: Int
         }
     }
 }

@@ -10,7 +10,9 @@
 import UIKit
 
 protocol ImageCollectionPresentationLogic {
-    func presentSomething(response: ImageCollection.Something.Response)
+    func presentCount(response: ImageCollection.PhotoCollectionCount.Response)
+    func presentPhotoCollection(response: ImageCollection.PhotoCollection.Response)
+    func presentCurrentPage(response: ImageCollection.PhotoCollectionPage.Response)
 }
 
 final class ImageCollectionPresenter: ImageCollectionPresentationLogic {
@@ -19,8 +21,19 @@ final class ImageCollectionPresenter: ImageCollectionPresentationLogic {
     
     // MARK: - public - func
     
-    public func presentSomething(response: ImageCollection.Something.Response) {
-        let viewModel = ImageCollection.Something.ViewModel()
-        viewController?.displaySomething(viewModel: viewModel)
+    func presentCount(response: ImageCollection.PhotoCollectionCount.Response) {
+        let countString = String(response.count)
+        let viewModel = ImageCollection.PhotoCollectionCount.ViewModel(count: countString)
+        viewController?.displayCount(viewModel: viewModel)
+    }
+    
+    func presentPhotoCollection(response: ImageCollection.PhotoCollection.Response) {
+        let viewModel = ImageCollection.PhotoCollection.ViewModel(photoURLs: response.photoURLs)
+        viewController?.displayPhotoCollection(viewModel: viewModel)
+    }
+    
+    func presentCurrentPage(response: ImageCollection.PhotoCollectionPage.Response) {
+        let viewModel = ImageCollection.PhotoCollectionPage.ViewModel(page: response.page)
+        viewController?.displayCurrentPage(viewModel: viewModel)
     }
 }
