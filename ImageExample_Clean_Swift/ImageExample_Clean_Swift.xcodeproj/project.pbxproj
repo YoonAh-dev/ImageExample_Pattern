@@ -64,6 +64,7 @@
 		B56F62112CA9373F00D494E8 /* View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = View; sourceTree = "<group>"; };
 		B56F62142CA93AC100D494E8 /* Extensions */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Extensions; sourceTree = "<group>"; };
 		B57542892CA987F1004A28C3 /* Workers */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Workers; sourceTree = "<group>"; };
+		B5E8218B2CAB8A030062D6A2 /* ImageDetail */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ImageDetail; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +168,7 @@
 		B5836D6F2CA1AA91005E6B36 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				B5E8218B2CAB8A030062D6A2 /* ImageDetail */,
 				B5836D6E2CA1AA79005E6B36 /* ImageCollection */,
 			);
 			path = Scenes;
@@ -212,6 +214,7 @@
 				B56F62112CA9373F00D494E8 /* View */,
 				B56F62142CA93AC100D494E8 /* Extensions */,
 				B57542892CA987F1004A28C3 /* Workers */,
+				B5E8218B2CAB8A030062D6A2 /* ImageDetail */,
 			);
 			name = ImageExample_Clean_Swift;
 			productName = ImageExample_Clean_Swift;

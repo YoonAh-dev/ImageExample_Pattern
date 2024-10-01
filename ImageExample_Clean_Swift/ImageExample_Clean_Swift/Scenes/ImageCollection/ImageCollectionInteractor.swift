@@ -14,10 +14,13 @@ protocol ImageCollectionBusinessLogic {
     func changeCount(request: ImageCollection.PhotoCollectionCount.Request)
     func fetchPhotoCollection(request: ImageCollection.PhotoCollection.Request)
     func changeToPage(request: ImageCollection.PhotoCollectionPage.Request)
+    func didSelectPhoto(request: ImageCollection.PhotoSection.Request)
 }
 
 protocol ImageCollectionDataStore {
     var count: Int { get set }
+    var imageURL: String? { get set }
+    var imageURLs: [String] { get }
 }
 
 final class ImageCollectionInteractor: ImageCollectionBusinessLogic, ImageCollectionDataStore {
@@ -25,6 +28,8 @@ final class ImageCollectionInteractor: ImageCollectionBusinessLogic, ImageCollec
     // MARK: - datastore - property
     
     var count: Int = 0
+    var imageURL: String?
+    var imageURLs: [String] = []
     
     // MARK: - property
     
@@ -52,10 +57,12 @@ final class ImageCollectionInteractor: ImageCollectionBusinessLogic, ImageCollec
     }
     
     public func fetchPhotoCollection(request: ImageCollection.PhotoCollection.Request) {
-        Task { [weak photosWorker, presenter] in
-            let urls = await photosWorker?.fetchRandomPhotoURLs(count: count) ?? []
+        Task { [weak self] in
+            guard let self else { return }
+            let urls = await self.photosWorker.fetchRandomPhotoURLs(count: self.count)
             let response = ImageCollection.PhotoCollection.Response(photoURLs: urls)
-            presenter?.presentPhotoCollection(response: response)
+            self.imageURLs = urls
+            self.presenter?.presentPhotoCollection(response: response)
         }
     }
     
@@ -65,5 +72,13 @@ final class ImageCollectionInteractor: ImageCollectionBusinessLogic, ImageCollec
         let page = Int(offset / width)
         let response = ImageCollection.PhotoCollectionPage.Response(page: page)
         presenter?.presentCurrentPage(response: response)
+    }
+    
+    public func didSelectPhoto(request: ImageCollection.PhotoSection.Request) {
+        guard imageURLs.isNotEmpty(), imageURLs.count > request.row else { return }
+        imageURL = imageURLs[request.row]
+        
+        let response = ImageCollection.PhotoSection.Response()
+        presenter?.presentSelectedPhoto(response: response)
     }
 }

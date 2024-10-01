@@ -50,4 +50,12 @@ enum ImageCollection {
             let page: Int
         }
     }
+    
+    enum PhotoSection {
+        struct Request {
+            let row: Int
+        }
+        struct Response { }
+        struct ViewModel { }
+    }
 }

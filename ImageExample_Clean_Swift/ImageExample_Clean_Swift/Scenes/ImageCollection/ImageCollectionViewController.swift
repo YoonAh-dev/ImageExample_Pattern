@@ -10,17 +10,26 @@
 import Combine
 import UIKit
 
+protocol ImageCollectionViewDelegate: AnyObject {
+    func didSelectCell(with rowIndex: Int)
+}
+
 protocol ImageCollectionDisplayLogic: AnyObject {
     func displayCount(viewModel: ImageCollection.PhotoCollectionCount.ViewModel)
     func displayPhotoCollection(viewModel: ImageCollection.PhotoCollection.ViewModel)
     func displayCurrentPage(viewModel: ImageCollection.PhotoCollectionPage.ViewModel)
+    func displaySelectedPhoto(viewModel: ImageCollection.PhotoSection.ViewModel)
 }
 
 final class ImageCollectionViewController: UIViewController, ImageCollectionDisplayLogic {
     
     // MARK: - ui component
     
-    private lazy var contentView = ImageCollectionView(frame: view.frame)
+    private lazy var contentView: ImageCollectionView = {
+        let view = ImageCollectionView(frame: view.frame)
+        view.delegate = self
+        return view
+    }()
     
     // MARK: - property
     
@@ -131,5 +140,17 @@ final class ImageCollectionViewController: UIViewController, ImageCollectionDisp
     
     public func displayCurrentPage(viewModel: ImageCollection.PhotoCollectionPage.ViewModel) {
         contentView.setupCurrentPage(index: viewModel.page)
+    }
+    
+    public func displaySelectedPhoto(viewModel: ImageCollection.PhotoSection.ViewModel) {
+        router?.routeToImageDetail()
+    }
+}
+
+// MARK: - ImageCollectionViewDelegate
+extension ImageCollectionViewController: ImageCollectionViewDelegate {
+    func didSelectCell(with rowIndex: Int) {
+        let request = ImageCollection.PhotoSection.Request(row: rowIndex)
+        interactor?.didSelectPhoto(request: request)
     }
 }

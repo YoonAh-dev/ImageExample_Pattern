@@ -10,7 +10,7 @@
 import UIKit
 
 protocol ImageCollectionRoutingLogic {
-    func routeToSomewhere()
+    func routeToImageDetail()
 }
 
 protocol ImageCollectionDataPassing {
@@ -23,22 +23,22 @@ final class ImageCollectionRouter: NSObject, ImageCollectionRoutingLogic, ImageC
     
     // MARK: - route - func
     
-    public func routeToSomewhere() {
-//        let destinationVC = SomewhereViewController()
-//        var destinationDS = destinationVC.router!.dataStore!
-//        passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-//        navigateToSomewhere(source: viewController!, destination: destinationVC)
+    public func routeToImageDetail() {
+        let destinationVC = ImageDetailViewController()
+        var destinationDS = destinationVC.router!.dataStore!
+        passDataToImageDetail(source: dataStore!, destination: &destinationDS)
+        navigateToImageDetail(source: viewController!, destination: destinationVC)
     }
     
     // MARK: - navigate - func
     
-//    private func navigateToSomewhere(source: ImageCollectionViewController, destination: SomewhereViewController) {
-//        source.show(destination, sender: nil)
-//    }
+    private func navigateToImageDetail(source: ImageCollectionViewController, destination: ImageDetailViewController) {
+        source.navigationController?.pushViewController(destination, animated: true)
+    }
     
     // MARK: - passing data - func
     
-//    private func passDataToSomewhere(source: ImageCollectionDataStore, destination: inout SomewhereDataStore) {
-//        destination.name = source.name
-//    }
+    private func passDataToImageDetail(source: ImageCollectionDataStore, destination: inout ImageDetailDataStore) {
+        destination.imageURL = source.imageURL
+    }
 }

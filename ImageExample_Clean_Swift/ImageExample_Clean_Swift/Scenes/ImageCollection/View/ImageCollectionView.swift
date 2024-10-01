@@ -27,6 +27,7 @@ final class ImageCollectionView: UIView {
             PhotoCollectionViewCell.self,
             forCellWithReuseIdentifier: PhotoCollectionViewCell.identifier
         )
+        collectionView.delegate = self
         return collectionView
     }()
     private let pageControl: UIPageControl = UIPageControl()
@@ -52,6 +53,8 @@ final class ImageCollectionView: UIView {
     }()
     
     // MARK: - property
+    
+    weak var delegate: ImageCollectionViewDelegate?
     
     private var dataSource: UICollectionViewDiffableDataSource<Section, String>!
     private var snapshot: NSDiffableDataSourceSnapshot<Section, String>!
@@ -157,6 +160,13 @@ final class ImageCollectionView: UIView {
     private func updatePageControl() {
         pageControl.numberOfPages = photoCollectionView.numberOfItems(inSection: .zero)
         pageControl.currentPage = photoCollectionView.indexPathsForVisibleItems.first?.item ?? 0
+    }
+}
+
+// MARK: - CollectionViewDelegate
+extension ImageCollectionView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.didSelectCell(with: indexPath.item)
     }
 }
 

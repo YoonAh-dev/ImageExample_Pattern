@@ -1,29 +1,28 @@
 //
-//  PhotoCollectionViewCell.swift
+//  ImageDetailView.swift
 //  ImageExample_Clean_Swift
 //
-//  Created by SHIN YOON AH on 9/29/24.
+//  Created by SHIN YOON AH on 10/1/24.
 //
 
 import UIKit
 import SnapKit
 
-final class PhotoCollectionViewCell: UICollectionViewCell {
-
-    static let identifier = "PhotoCollectionViewCell"
-
+final class ImageDetailView: UIView {
+    
     // MARK: - ui component
-
-    private let photoImageView: UIImageView = {
+    
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
-    
+
     // MARK: - init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configureUI()
         setupLayout()
     }
     
@@ -34,17 +33,23 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
     
     // MARK: - setup
     
-    private func setupLayout() {
-        addSubview(photoImageView)
-        
-        photoImageView.snp.makeConstraints {
-            $0.directionalEdges.equalToSuperview()
-        }
+    private func configureUI() {
+        backgroundColor = .systemGray
     }
 
-    // MARK: - func
-
-    func configureCell(imageURL: String) {
-        photoImageView.loadImageUrl(imageURL)
+    private func setupLayout() {
+        addSubview(imageView)
+        
+        imageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+    
+    // MARK: - public - func
+    
+    public func updateImage(_ imageURL: String) {
+        DispatchQueue.main.async { [weak imageView] in
+            imageView?.loadImageUrl(imageURL)
+        }
     }
 }
