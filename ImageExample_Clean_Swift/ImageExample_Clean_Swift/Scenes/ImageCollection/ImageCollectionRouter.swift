@@ -39,6 +39,7 @@ final class ImageCollectionRouter: NSObject, ImageCollectionRoutingLogic, ImageC
     // MARK: - passing data - func
     
     private func passDataToImageDetail(source: ImageCollectionDataStore, destination: inout ImageDetailDataStore) {
-        destination.imageURL = source.imageURL
+        destination.index = source.index
+        destination.imageURLs = source.imageURLs
     }
 }

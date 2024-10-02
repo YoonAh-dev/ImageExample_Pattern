@@ -36,7 +36,7 @@ final class ImageCollectionViewController: UIViewController, ImageCollectionDisp
     private var cancellables: Set<AnyCancellable> = []
     
     private var interactor: ImageCollectionBusinessLogic?
-    private var router: (ImageCollectionRoutingLogic & ImageCollectionDataPassing)?
+    var router: (ImageCollectionRoutingLogic & ImageCollectionDataPassing)?
     
     // MARK: - init
     
@@ -76,6 +76,11 @@ final class ImageCollectionViewController: UIViewController, ImageCollectionDisp
         super.viewDidLoad()
         start()
         setupAction()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateImages()
     }
     
     // MARK: - func
@@ -126,6 +131,11 @@ final class ImageCollectionViewController: UIViewController, ImageCollectionDisp
     private func scrollCollectionView(width: Double, offset: Double) {
         let request = ImageCollection.PhotoCollectionPage.Request(width: width, offset: offset)
         interactor?.changeToPage(request: request)
+    }
+    
+    private func updateImages() {
+        let request = ImageCollection.PhotoCollection.Request()
+        interactor?.changeIndexs(request: request)
     }
     
     // MARK: - display - func

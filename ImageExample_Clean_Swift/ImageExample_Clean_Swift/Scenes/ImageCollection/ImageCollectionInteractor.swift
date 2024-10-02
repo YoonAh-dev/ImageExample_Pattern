@@ -15,11 +15,13 @@ protocol ImageCollectionBusinessLogic {
     func fetchPhotoCollection(request: ImageCollection.PhotoCollection.Request)
     func changeToPage(request: ImageCollection.PhotoCollectionPage.Request)
     func didSelectPhoto(request: ImageCollection.PhotoSection.Request)
+    func changeIndexs(request: ImageCollection.PhotoCollection.Request)
 }
 
 protocol ImageCollectionDataStore {
     var count: Int { get set }
-    var imageURL: String? { get set }
+    var index: Int? { get set }
+    var changedIndex: Int? { get set }
     var imageURLs: [String] { get }
 }
 
@@ -28,7 +30,8 @@ final class ImageCollectionInteractor: ImageCollectionBusinessLogic, ImageCollec
     // MARK: - datastore - property
     
     var count: Int = 0
-    var imageURL: String?
+    var index: Int?
+    var changedIndex: Int?
     var imageURLs: [String] = []
     
     // MARK: - property
@@ -76,9 +79,20 @@ final class ImageCollectionInteractor: ImageCollectionBusinessLogic, ImageCollec
     
     public func didSelectPhoto(request: ImageCollection.PhotoSection.Request) {
         guard imageURLs.isNotEmpty(), imageURLs.count > request.row else { return }
-        imageURL = imageURLs[request.row]
+        index = request.row
+        changedIndex = request.row
         
         let response = ImageCollection.PhotoSection.Response()
         presenter?.presentSelectedPhoto(response: response)
+    }
+    
+    public func changeIndexs(request: ImageCollection.PhotoCollection.Request) {
+        guard let index, let changedIndex, imageURLs.isNotEmpty() else { return }
+        guard index != changedIndex else { return }
+        
+        let element = imageURLs.remove(at: index)
+        imageURLs.insert(element, at: changedIndex)
+        let response = ImageCollection.PhotoCollection.Response(photoURLs: imageURLs)
+        presenter?.presentPhotoCollection(response: response)
     }
 }

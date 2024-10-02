@@ -65,6 +65,7 @@
 		B56F62142CA93AC100D494E8 /* Extensions */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Extensions; sourceTree = "<group>"; };
 		B57542892CA987F1004A28C3 /* Workers */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Workers; sourceTree = "<group>"; };
 		B5E8218B2CAB8A030062D6A2 /* ImageDetail */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ImageDetail; sourceTree = "<group>"; };
+		B5E821A12CABA49C0062D6A2 /* ImageIndexEdit */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ImageIndexEdit; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +169,7 @@
 		B5836D6F2CA1AA91005E6B36 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				B5E821A12CABA49C0062D6A2 /* ImageIndexEdit */,
 				B5E8218B2CAB8A030062D6A2 /* ImageDetail */,
 				B5836D6E2CA1AA79005E6B36 /* ImageCollection */,
 			);
@@ -215,6 +217,7 @@
 				B56F62142CA93AC100D494E8 /* Extensions */,
 				B57542892CA987F1004A28C3 /* Workers */,
 				B5E8218B2CAB8A030062D6A2 /* ImageDetail */,
+				B5E821A12CABA49C0062D6A2 /* ImageIndexEdit */,
 			);
 			name = ImageExample_Clean_Swift;
 			productName = ImageExample_Clean_Swift;

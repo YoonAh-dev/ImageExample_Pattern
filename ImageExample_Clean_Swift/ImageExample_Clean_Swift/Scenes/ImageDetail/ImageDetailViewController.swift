@@ -11,6 +11,8 @@ import UIKit
 
 protocol ImageDetailDisplayLogic: AnyObject {
     func displayImage(viewModel: ImageDetail.Image.ViewModel)
+    func displaySheetView(viewModel: ImageDetail.EditTap.ViewModel)
+    func displayImageCollection(viewModel: ImageDetail.SendIndex.ViewModel)
 }
 
 final class ImageDetailViewController: UIViewController, ImageDetailDisplayLogic {
@@ -30,6 +32,7 @@ final class ImageDetailViewController: UIViewController, ImageDetailDisplayLogic
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nil, bundle: nil)
         setup()
+        configureUI()
     }
     
     @available(*, unavailable)
@@ -52,6 +55,22 @@ final class ImageDetailViewController: UIViewController, ImageDetailDisplayLogic
         router.dataStore = interactor
     }
     
+    private func configureUI() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .edit,
+            target: self,
+            action: #selector(didTapEdit)
+        )
+    }
+    
+    // MARK: - selector
+    
+    @objc
+    private func didTapEdit() {
+        let request = ImageDetail.EditTap.Request()
+        interactor?.didTapEdit(request: request)
+    }
+    
     // MARK: - lifecycle
     
     override func loadView() {
@@ -64,11 +83,23 @@ final class ImageDetailViewController: UIViewController, ImageDetailDisplayLogic
         start()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        isMovingFromParent()
+    }
+    
     // MARK: - func
     
     private func start() {
         let request = ImageDetail.Image.Request()
         interactor?.fetchImage(request: request)
+    }
+    
+    private func isMovingFromParent() {
+        if isMovingFromParent {
+            let request = ImageDetail.SendIndex.Request()
+            interactor?.sendIndex(request: request)
+        }
     }
     
     // MARK: - display - func
@@ -79,5 +110,13 @@ final class ImageDetailViewController: UIViewController, ImageDetailDisplayLogic
             return
         }
         contentView.updateImage(imageURL)
+    }
+    
+    public func displaySheetView(viewModel: ImageDetail.EditTap.ViewModel) {
+        router?.routeToSheetView()
+    }
+    
+    public func displayImageCollection(viewModel: ImageDetail.SendIndex.ViewModel) {
+        router?.routeToImageCollection()
     }
 }

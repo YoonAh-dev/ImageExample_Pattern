@@ -11,17 +11,21 @@ import UIKit
 
 protocol ImageDetailBusinessLogic {
     func fetchImage(request: ImageDetail.Image.Request)
+    func didTapEdit(request: ImageDetail.EditTap.Request)
+    func sendIndex(request: ImageDetail.SendIndex.Request)
 }
 
 protocol ImageDetailDataStore {
-    var imageURL: String? { get set }
+    var imageURLs: [String] { get set }
+    var index: Int? { get set }
 }
 
 final class ImageDetailInteractor: ImageDetailBusinessLogic, ImageDetailDataStore {
     
     // MARK: - datasource - property
     
-    var imageURL: String?
+    var imageURLs: [String] = []
+    var index: Int?
     
     // MARK: - property
     
@@ -30,7 +34,20 @@ final class ImageDetailInteractor: ImageDetailBusinessLogic, ImageDetailDataStor
     // MARK: - public - func
     
     public func fetchImage(request: ImageDetail.Image.Request) {
+        let imageURL: String? = if let index { imageURLs[safe: index] }
+        else { nil }
         let response = ImageDetail.Image.Response(imageURL: imageURL)
         presenter?.presentImage(response: response)
+    }
+    
+    public func didTapEdit(request: ImageDetail.EditTap.Request) {
+        guard let index else { return }
+        let response = ImageDetail.EditTap.Response(row: index, allImageCount: imageURLs.count)
+        presenter?.presentSheetView(response: response)
+    }
+    
+    public func sendIndex(request: ImageDetail.SendIndex.Request) {
+        let response = ImageDetail.SendIndex.Response()
+        presenter?.presentImageCollection(response: response)
     }
 }
