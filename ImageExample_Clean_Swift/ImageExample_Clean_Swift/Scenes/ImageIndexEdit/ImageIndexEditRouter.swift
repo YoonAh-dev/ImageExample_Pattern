@@ -11,36 +11,37 @@ import UIKit
 
 protocol ImageIndexEditRoutingLogic {
     func routeToImageDetail()
+    func routeToImageDetail(with changedIndex: Int)
 }
 
 protocol ImageIndexEditDataPassing {
     var dataStore: ImageIndexEditDataStore? { get }
 }
 
-final class ImageIndexEditRouter: NSObject, ImageIndexEditRoutingLogic, ImageIndexEditDataPassing
-{
+protocol ImageIndexEditRouterDelegate: AnyObject {
+    func dismissWithSuccess(changedIndex: Int)
+}
+
+final class ImageIndexEditRouter: ImageIndexEditRoutingLogic, ImageIndexEditDataPassing {
+    
     weak var viewController: ImageIndexEditViewController?
     var dataStore: ImageIndexEditDataStore?
+    weak var delegate: ImageIndexEditRouterDelegate?
     
     // MARK: - route - func
     
     public func routeToImageDetail() {
-        let destinationVC = ImageDetailViewController()
-        var destinationDS = destinationVC.router!.dataStore!
-        passDataToImageDetail(source: dataStore!, destination: &destinationDS)
-        navigateToImageDetail(source: viewController!, destination: destinationVC)
+        navigateToImageDetail(source: viewController!)
+    }
+    
+    public func routeToImageDetail(with changedIndex: Int) {
+        delegate?.dismissWithSuccess(changedIndex: changedIndex)
+        viewController?.dismiss(animated: true)
     }
     
     // MARK: - navigate - func
     
-    private func navigateToImageDetail(source: ImageIndexEditViewController, destination: ImageDetailViewController) {
+    private func navigateToImageDetail(source: ImageIndexEditViewController) {
         source.dismiss(animated: true)
     }
-    
-    // MARK: - passing data - func
-    
-    private func passDataToImageDetail(source: ImageIndexEditDataStore, destination: inout ImageDetailDataStore) {
-        destination.index = source.currentIndex
-    }
 }
-

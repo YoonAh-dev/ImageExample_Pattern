@@ -24,7 +24,7 @@ final class ImageCollectionRouter: NSObject, ImageCollectionRoutingLogic, ImageC
     // MARK: - route - func
     
     public func routeToImageDetail() {
-        let destinationVC = ImageDetailViewController()
+        let destinationVC = ImageDetailViewController(delegate: self)
         var destinationDS = destinationVC.router!.dataStore!
         passDataToImageDetail(source: dataStore!, destination: &destinationDS)
         navigateToImageDetail(source: viewController!, destination: destinationVC)
@@ -41,5 +41,11 @@ final class ImageCollectionRouter: NSObject, ImageCollectionRoutingLogic, ImageC
     private func passDataToImageDetail(source: ImageCollectionDataStore, destination: inout ImageDetailDataStore) {
         destination.index = source.index
         destination.imageURLs = source.imageURLs
+    }
+}
+
+extension ImageCollectionRouter: ImageDetailRouterDelegate {
+    func dismissWithChange(index: Int) {
+        dataStore?.changedIndex = index
     }
 }

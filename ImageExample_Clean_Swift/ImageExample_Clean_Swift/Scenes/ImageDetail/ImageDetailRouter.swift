@@ -18,22 +18,25 @@ protocol ImageDetailDataPassing {
     var dataStore: ImageDetailDataStore? { get }
 }
 
-final class ImageDetailRouter: NSObject, ImageDetailRoutingLogic, ImageDetailDataPassing
-{
+protocol ImageDetailRouterDelegate: AnyObject {
+    func dismissWithChange(index: Int)
+}
+
+final class ImageDetailRouter: ImageDetailRoutingLogic, ImageDetailDataPassing {
+    
     weak var viewController: ImageDetailViewController?
     var dataStore: ImageDetailDataStore?
+    weak var delegate: ImageDetailRouterDelegate?
     
     // MARK: - route - func
     
     public func routeToImageCollection() {
         let destinationVC = ImageCollectionViewController()
-        var destinationDS = destinationVC.router!.dataStore!
-        passDataToImageCollection(source: dataStore!, destination: &destinationDS)
         navigateToImageCollection(source: viewController!, destination: destinationVC)
     }
     
     public func routeToSheetView() {
-        let destinationVC = ImageIndexEditViewController()
+        let destinationVC = ImageIndexEditViewController(delegate: self)
         var destinationDS = destinationVC.router!.dataStore!
         if let sheet = destinationVC.sheetPresentationController {
             sheet.detents = [.medium()]
@@ -49,6 +52,9 @@ final class ImageDetailRouter: NSObject, ImageDetailRoutingLogic, ImageDetailDat
     // MARK: - navigate - func
     
     private func navigateToImageCollection(source: ImageDetailViewController, destination: ImageCollectionViewController) {
+        if let index = dataStore?.index {
+            delegate?.dismissWithChange(index: index)
+        }
         source.navigationController?.popViewController(animated: true)
     }
     
@@ -58,12 +64,14 @@ final class ImageDetailRouter: NSObject, ImageDetailRoutingLogic, ImageDetailDat
     
     // MARK: - passing data - func
     
-    private func passDataToImageCollection(source: ImageDetailDataStore, destination: inout ImageCollectionDataStore) {
-        destination.changedIndex = source.index
-    }
-    
     private func passDataToSheetView(source: ImageDetailDataStore, destination: inout ImageIndexEditDataStore) {
         destination.indexs = Array(source.imageURLs.indices)
         destination.currentIndex = source.index ?? 0
+    }
+}
+
+extension ImageDetailRouter: ImageIndexEditRouterDelegate {
+    func dismissWithSuccess(changedIndex: Int) {
+        self.dataStore?.index = changedIndex
     }
 }

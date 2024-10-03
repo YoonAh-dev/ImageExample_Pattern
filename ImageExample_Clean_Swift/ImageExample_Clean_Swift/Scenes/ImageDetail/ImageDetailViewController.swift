@@ -29,9 +29,9 @@ final class ImageDetailViewController: UIViewController, ImageDetailDisplayLogic
     
     // MARK: - init
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    init(delegate: ImageDetailRouterDelegate) {
         super.init(nibName: nil, bundle: nil)
-        setup()
+        setup(delegate: delegate)
         configureUI()
     }
     
@@ -42,11 +42,12 @@ final class ImageDetailViewController: UIViewController, ImageDetailDisplayLogic
     
     // MARK: - setup
     
-    private func setup() {
+    private func setup(delegate: ImageDetailRouterDelegate) {
         let viewController = self
         let interactor = ImageDetailInteractor()
         let presenter = ImageDetailPresenter()
         let router = ImageDetailRouter()
+        router.delegate = delegate
         viewController.interactor = interactor
         viewController.router = router
         interactor.presenter = presenter

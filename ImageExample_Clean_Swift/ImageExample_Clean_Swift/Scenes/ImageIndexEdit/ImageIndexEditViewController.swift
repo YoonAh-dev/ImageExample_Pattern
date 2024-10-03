@@ -35,9 +35,9 @@ final class ImageIndexEditViewController: UIViewController, ImageIndexEditDispla
     
     // MARK: - init
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    init(delegate: ImageIndexEditRouterDelegate) {
         super.init(nibName: nil, bundle: nil)
-        setup()
+        setup(delegate: delegate)
     }
     
     @available(*, unavailable)
@@ -47,11 +47,12 @@ final class ImageIndexEditViewController: UIViewController, ImageIndexEditDispla
     
     // MARK: - setup
     
-    private func setup() {
+    private func setup(delegate: ImageIndexEditRouterDelegate) {
         let viewController = self
         let interactor = ImageIndexEditInteractor()
         let presenter = ImageIndexEditPresenter()
         let router = ImageIndexEditRouter()
+        router.delegate = delegate
         viewController.interactor = interactor
         viewController.router = router
         interactor.presenter = presenter
@@ -92,11 +93,11 @@ final class ImageIndexEditViewController: UIViewController, ImageIndexEditDispla
     }
     
     public func displaySaveIndex(viewModel: ImageIndexEdit.SaveIndex.ViewModel) {
-        guard let _ = viewModel.index else {
+        guard let index = viewModel.index else {
             showAlert(title: "에러 발생", message: "잘못된 값이 전달되었습니다.")
             return
         }
-        router?.routeToImageDetail()
+        router?.routeToImageDetail(with: index)
     }
 }
 
