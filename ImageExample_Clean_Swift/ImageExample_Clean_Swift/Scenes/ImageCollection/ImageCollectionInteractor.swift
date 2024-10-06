@@ -36,6 +36,8 @@ final class ImageCollectionInteractor: ImageCollectionBusinessLogic, ImageCollec
     
     // MARK: - property
     
+    private let maxCount = 30
+    
     let photosWorker = PhotosWorkerImpl(unsplashAPI: UnsplashAPI())
     
     var presenter: ImageCollectionPresentationLogic?
@@ -54,6 +56,7 @@ final class ImageCollectionInteractor: ImageCollectionBusinessLogic, ImageCollec
             count -= 1
         case .right:
             count += 1
+            if count > maxCount { count = maxCount }
         }
         let response = ImageCollection.PhotoCollectionCount.Response(count: count)
         presenter?.presentCount(response: response)
@@ -61,7 +64,7 @@ final class ImageCollectionInteractor: ImageCollectionBusinessLogic, ImageCollec
     
     public func fetchPhotoCollection(request: ImageCollection.PhotoCollection.Request) {
         Task { [weak self] in
-            guard let self else { return }
+            guard let self, self.count > 0 else { return }
             let urls = await self.photosWorker.fetchRandomPhotoURLs(count: self.count)
             let response = ImageCollection.PhotoCollection.Response(photoURLs: urls)
             self.imageURLs = urls
