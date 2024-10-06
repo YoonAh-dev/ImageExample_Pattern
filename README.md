@@ -12,7 +12,7 @@
 
 ### ⓵ ImageExample - 메인 화면 동작 Gif
 
-|  |
+| ![Simulator Screen Recording - iPhone 16 - 2024-09-29 at 23 18 13](https://github.com/user-attachments/assets/523dc4c9-3307-489d-8786-5928dc656614) |
 |--|
 |1. < > 버튼을 이용해서 가져오고 싶은 이미지의 갯수를 정할 수 있습니다.(최소 1장, 최대 30장)<br>2. `이미지 가져오기` 버튼을 누르면 Unsplash API를 통해서 이미지를 가져옵니다.<br>3. 가져온 이미지는 CollectionView에서 볼 수 있습니다.<br>4. ColletionView를 스크롤하면 다음 이미지를 볼 수 있고, PageControl가 움직입니다.<br>5. 각 이미지를 클릭하면 상세 페이지로 이동합니다.|
 
@@ -20,7 +20,7 @@
 
 ### ⓶ ImageExample - 상세 화면 동작 Gif
 
-| |
+|![Simulator Screen Recording - iPhone 16 - 2024-10-03 at 11 38 05](https://github.com/user-attachments/assets/337fae94-5311-4363-a91a-f7ef3fcd1dc9) |
 |--|
 |1. 이전 화면에서 선택한 사진을 노출합니다.<br>2. 상단 Edit 버튼을 누르면 Index를 변경할 수 있는 반모달이 노출됩니다.<br>3. 반모달 화면에서 Index를 변경하고 저장 버튼을 누르면 Index가 저장됩니다.<br>4. 이전 화면으로 돌아가면 변경된 Index로 사진 순서가 변경됩니다.|
 
@@ -33,6 +33,8 @@
 
 Clean Swift는 **Clean Architecture**에서 유래되었다고 저자는 말합니다.
 
+<img width="600" alt="스크린샷 2021-11-19 오후 3 52 02" src="https://github.com/user-attachments/assets/667d4aed-b5ee-4d00-891b-3317c5873fba">
+
 클린 아키텍처는 App Level의 UseCase를 더 작은 코드 수준의 UseCase로 분해하여 적절한 레이어로 분리합니다. 그로 인해 각 레이어의 관심사가 분리(Separation of Concerns)됩니다.
 즉, 각 코드가 관심사에 맞춘 레이어에 위치하게 됩니다.
 
@@ -40,6 +42,9 @@ Clean Swift는 **Clean Architecture**에서 유래되었다고 저자는 말합�
 
 Clean Swift는 클린 아키텍처의 레이어에 **VIP Cycle를 추가**합니다.
 VIP Cycle은 Clean Swift의 핵심 개념으로 ViewController - Interactor - Presenter를 의미합니다.
+
+<img width="600" alt="스크린샷 2021-11-19 오후 3 52 02" src="https://github.com/user-attachments/assets/6d067014-e462-4987-ae0a-6a70d960bfa4">
+
 
 해당 Cycle은 ViewController로부터 시작됩니다.
 
