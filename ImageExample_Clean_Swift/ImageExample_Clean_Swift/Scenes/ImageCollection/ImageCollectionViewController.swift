@@ -18,7 +18,7 @@ protocol ImageCollectionDisplayLogic: AnyObject {
     func displayCount(viewModel: ImageCollection.PhotoCollectionCount.ViewModel)
     func displayPhotoCollection(viewModel: ImageCollection.PhotoCollection.ViewModel)
     func displayCurrentPage(viewModel: ImageCollection.PhotoCollectionPage.ViewModel)
-    func displaySelectedPhoto(viewModel: ImageCollection.PhotoSection.ViewModel)
+    func displaySelectedPhoto(viewModel: ImageCollection.PhotoSelection.ViewModel)
 }
 
 final class ImageCollectionViewController: UIViewController, ImageCollectionDisplayLogic {
@@ -54,7 +54,7 @@ final class ImageCollectionViewController: UIViewController, ImageCollectionDisp
     
     private func setup() {
         let viewController = self
-        let interactor = ImageCollectionInteractor()
+        let interactor = ImageCollectionInteractor(photosWorker: PhotosWorkerImpl(unsplashAPI: UnsplashAPI()))
         let presenter = ImageCollectionPresenter()
         let router = ImageCollectionRouter()
         viewController.interactor = interactor
@@ -152,7 +152,7 @@ final class ImageCollectionViewController: UIViewController, ImageCollectionDisp
         contentView.setupCurrentPage(index: viewModel.page)
     }
     
-    public func displaySelectedPhoto(viewModel: ImageCollection.PhotoSection.ViewModel) {
+    public func displaySelectedPhoto(viewModel: ImageCollection.PhotoSelection.ViewModel) {
         router?.routeToImageDetail()
     }
 }
@@ -160,7 +160,7 @@ final class ImageCollectionViewController: UIViewController, ImageCollectionDisp
 // MARK: - ImageCollectionViewDelegate
 extension ImageCollectionViewController: ImageCollectionViewDelegate {
     func didSelectCell(with rowIndex: Int) {
-        let request = ImageCollection.PhotoSection.Request(row: rowIndex)
+        let request = ImageCollection.PhotoSelection.Request(row: rowIndex)
         interactor?.didSelectPhoto(request: request)
     }
 }

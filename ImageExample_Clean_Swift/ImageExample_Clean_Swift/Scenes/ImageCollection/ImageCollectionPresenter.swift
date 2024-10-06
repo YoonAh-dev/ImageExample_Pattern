@@ -13,7 +13,7 @@ protocol ImageCollectionPresentationLogic {
     func presentCount(response: ImageCollection.PhotoCollectionCount.Response)
     func presentPhotoCollection(response: ImageCollection.PhotoCollection.Response)
     func presentCurrentPage(response: ImageCollection.PhotoCollectionPage.Response)
-    func presentSelectedPhoto(response: ImageCollection.PhotoSection.Response)
+    func presentSelectedPhoto(response: ImageCollection.PhotoSelection.Response)
 }
 
 final class ImageCollectionPresenter: ImageCollectionPresentationLogic {
@@ -38,8 +38,8 @@ final class ImageCollectionPresenter: ImageCollectionPresentationLogic {
         viewController?.displayCurrentPage(viewModel: viewModel)
     }
     
-    func presentSelectedPhoto(response: ImageCollection.PhotoSection.Response) {
-        let viewModel = ImageCollection.PhotoSection.ViewModel()
+    func presentSelectedPhoto(response: ImageCollection.PhotoSelection.Response) {
+        let viewModel = ImageCollection.PhotoSelection.ViewModel()
         viewController?.displaySelectedPhoto(viewModel: viewModel)
     }
 }

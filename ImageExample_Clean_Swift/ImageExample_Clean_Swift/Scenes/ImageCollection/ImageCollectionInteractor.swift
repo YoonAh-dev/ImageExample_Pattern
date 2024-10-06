@@ -14,7 +14,7 @@ protocol ImageCollectionBusinessLogic {
     func changeCount(request: ImageCollection.PhotoCollectionCount.Request)
     func fetchPhotoCollection(request: ImageCollection.PhotoCollection.Request)
     func changeToPage(request: ImageCollection.PhotoCollectionPage.Request)
-    func didSelectPhoto(request: ImageCollection.PhotoSection.Request)
+    func didSelectPhoto(request: ImageCollection.PhotoSelection.Request)
     func changeIndexs(request: ImageCollection.PhotoCollection.Request)
 }
 
@@ -38,9 +38,15 @@ final class ImageCollectionInteractor: ImageCollectionBusinessLogic, ImageCollec
     
     private let maxCount = 30
     
-    let photosWorker = PhotosWorkerImpl(unsplashAPI: UnsplashAPI())
-    
     var presenter: ImageCollectionPresentationLogic?
+    
+    let photosWorker: PhotosWorker
+    
+    // MARK: - init
+    
+    init(photosWorker: PhotosWorker) {
+        self.photosWorker = photosWorker
+    }
     
     // MARK: - public - func
     
@@ -80,12 +86,12 @@ final class ImageCollectionInteractor: ImageCollectionBusinessLogic, ImageCollec
         presenter?.presentCurrentPage(response: response)
     }
     
-    public func didSelectPhoto(request: ImageCollection.PhotoSection.Request) {
+    public func didSelectPhoto(request: ImageCollection.PhotoSelection.Request) {
         guard imageURLs.isNotEmpty(), imageURLs.count > request.row else { return }
         index = request.row
         changedIndex = request.row
         
-        let response = ImageCollection.PhotoSection.Response()
+        let response = ImageCollection.PhotoSelection.Response()
         presenter?.presentSelectedPhoto(response: response)
     }
     

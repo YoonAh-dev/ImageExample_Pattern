@@ -51,7 +51,7 @@ enum ImageCollection {
         }
     }
     
-    enum PhotoSection {
+    enum PhotoSelection {
         struct Request {
             let row: Int
         }

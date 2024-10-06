@@ -11,8 +11,6 @@ import UIKit
 
 protocol ImageDetailDisplayLogic: AnyObject {
     func displayImage(viewModel: ImageDetail.Image.ViewModel)
-    func displaySheetView(viewModel: ImageDetail.EditTap.ViewModel)
-    func displayImageCollection(viewModel: ImageDetail.SendIndex.ViewModel)
 }
 
 final class ImageDetailViewController: UIViewController, ImageDetailDisplayLogic {
@@ -68,8 +66,7 @@ final class ImageDetailViewController: UIViewController, ImageDetailDisplayLogic
     
     @objc
     private func didTapEdit() {
-        let request = ImageDetail.EditTap.Request()
-        interactor?.didTapEdit(request: request)
+        router?.routeToSheetView()
     }
     
     // MARK: - lifecycle
@@ -98,8 +95,7 @@ final class ImageDetailViewController: UIViewController, ImageDetailDisplayLogic
     
     private func isMovingFromParent() {
         if isMovingFromParent {
-            let request = ImageDetail.SendIndex.Request()
-            interactor?.sendIndex(request: request)
+            router?.routeToImageCollection()
         }
     }
     
@@ -111,13 +107,5 @@ final class ImageDetailViewController: UIViewController, ImageDetailDisplayLogic
             return
         }
         contentView.updateImage(imageURL)
-    }
-    
-    public func displaySheetView(viewModel: ImageDetail.EditTap.ViewModel) {
-        router?.routeToSheetView()
-    }
-    
-    public func displayImageCollection(viewModel: ImageDetail.SendIndex.ViewModel) {
-        router?.routeToImageCollection()
     }
 }

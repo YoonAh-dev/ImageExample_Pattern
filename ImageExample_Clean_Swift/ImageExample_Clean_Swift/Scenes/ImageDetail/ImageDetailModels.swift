@@ -21,27 +21,5 @@ enum ImageDetail {
             let imageURL: String?
         }
     }
-    
-    enum EditTap {
-        struct Request {
-        }
-        struct Response {
-            let row: Int
-            let allImageCount: Int
-        }
-        struct ViewModel {
-            let row: Int
-            let allImageCount: Int
-        }
-    }
-    
-    enum SendIndex {
-        struct Request {
-        }
-        struct Response {
-        }
-        struct ViewModel {
-        }
-    }
 }
 

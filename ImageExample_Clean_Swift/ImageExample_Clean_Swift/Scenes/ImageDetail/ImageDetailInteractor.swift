@@ -11,8 +11,6 @@ import UIKit
 
 protocol ImageDetailBusinessLogic {
     func fetchImage(request: ImageDetail.Image.Request)
-    func didTapEdit(request: ImageDetail.EditTap.Request)
-    func sendIndex(request: ImageDetail.SendIndex.Request)
 }
 
 protocol ImageDetailDataStore {
@@ -38,16 +36,5 @@ final class ImageDetailInteractor: ImageDetailBusinessLogic, ImageDetailDataStor
         else { nil }
         let response = ImageDetail.Image.Response(imageURL: imageURL)
         presenter?.presentImage(response: response)
-    }
-    
-    public func didTapEdit(request: ImageDetail.EditTap.Request) {
-        guard let index else { return }
-        let response = ImageDetail.EditTap.Response(row: index, allImageCount: imageURLs.count)
-        presenter?.presentSheetView(response: response)
-    }
-    
-    public func sendIndex(request: ImageDetail.SendIndex.Request) {
-        let response = ImageDetail.SendIndex.Response()
-        presenter?.presentImageCollection(response: response)
     }
 }
